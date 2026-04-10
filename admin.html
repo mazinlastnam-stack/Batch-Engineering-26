@@ -2,675 +2,209 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>لوحة القائد | الدفعة 26 - كلية الهندسة</title>
+  <title>لوحة القائد | الدفعة 26</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
-
-    :root {
-      --primary-color: #2563eb;
-      --bg-color: #f1f5f9;
-      --sidebar-color: #0f172a;
-      --text-color: #1e293b;
-      --accent-color: #3b82f6;
-      --white: #ffffff;
-      --danger: #ef4444;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      --border-radius: 16px;
-    }
-
-    body {
-      background: var(--bg-color);
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Sidebar (يمين) */
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-color);
-      color: #e2e8f0;
-      position: fixed;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-      z-index: 100;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar-header {
-      padding: 1.8rem 1.5rem;
-      border-bottom: 1px solid #334155;
-    }
-
-    .sidebar-header h2 {
-      color: white;
-      font-size: 1.3rem;
-    }
-
-    .sidebar-header h2 i {
-      color: var(--accent-color);
-      margin-left: 8px;
-    }
-
-    .sidebar-header p {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 5px;
-    }
-
-    .nav-menu {
-      flex: 1;
-      padding: 1.5rem 0;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0.9rem 1.8rem;
-      color: #cbd5e1;
-      text-decoration: none;
-      transition: 0.2s;
-      cursor: pointer;
-      border-right: 3px solid transparent;
-    }
-
-    .nav-item i {
-      width: 24px;
-      font-size: 1.2rem;
-    }
-
-    .nav-item.active, .nav-item:hover {
-      background: #1e293b;
-      color: white;
-      border-right-color: var(--accent-color);
-    }
-
-    .logout-btn {
-      margin: 1.5rem;
-      background: rgba(239, 68, 68, 0.2);
-      border-radius: 12px;
-      text-align: center;
-      padding: 0.8rem;
-      color: #fca5a5;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .logout-btn:hover {
-      background: var(--danger);
-      color: white;
-    }
-
-    /* Main content */
-    .main-content {
-      flex: 1;
-      margin-right: 280px;
-      padding: 1.5rem 2rem;
-      transition: margin 0.3s;
-    }
-
-    /* Top bar */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--white);
-      padding: 0.8rem 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-    }
-
-    .page-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--sidebar-color);
-    }
-
-    .mobile-menu-toggle {
-      display: none;
-      background: var(--primary-color);
-      border: none;
-      color: white;
-      font-size: 1.3rem;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    /* Dashboard Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--white);
-      padding: 1.2rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      text-align: center;
-    }
-
-    .stat-card i {
-      font-size: 2rem;
-      color: var(--primary-color);
-    }
-
-    .stat-card h3 {
-      font-size: 1.8rem;
-      margin: 0.5rem 0;
-    }
-
-    /* Panels */
-    .panel {
-      background: var(--white);
-      border-radius: var(--border-radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-    }
-
-    .panel h3 {
-      margin-bottom: 1rem;
-      color: var(--sidebar-color);
-      border-right: 4px solid var(--accent-color);
-      padding-right: 10px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    input, textarea, select {
-      padding: 0.8rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      font-size: 1rem;
-      background: #f9fafb;
-    }
-
-    button {
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 0.8rem;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: var(--accent-color);
-    }
-
-    .delete-btn {
-      background: var(--danger);
-    }
-    .edit-btn {
-      background: var(--warning);
-    }
-
-    .item-list {
-      margin-top: 1.5rem;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 1rem;
-    }
-
-    .list-item {
-      background: #f8fafc;
-      margin: 0.5rem 0;
-      padding: 0.8rem;
-      border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .list-actions button {
-      margin: 0 5px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.8rem;
-    }
-
-    /* جدول تفاعلي للإدارة */
-    .schedule-editor table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .schedule-editor th, .schedule-editor td {
-      border: 1px solid #cbd5e1;
-      padding: 8px;
-      text-align: center;
-    }
-    .schedule-editor input {
-      width: 100%;
-      padding: 5px;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(100%);
-        width: 260px;
-      }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .main-content {
-        margin-right: 0;
-      }
-      .mobile-menu-toggle {
-        display: block;
-      }
-    }
+    /* التنسيقات الأساسية للوحة التحكم */
+    :root { --primary: #2563eb; --bg: #f1f5f9; --white: #ffffff; --danger: #ef4444; }
+    body { background: var(--bg); font-family: sans-serif; display: flex; }
+    .sidebar { width: 260px; background: #0f172a; color: white; min-height: 100vh; padding: 20px; position: fixed; right: 0; }
+    .main { margin-right: 260px; padding: 30px; width: 100%; }
+    .panel { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+    button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    .btn-danger { background: var(--danger); }
+    .btn-backup { background: #10b981; margin-left: 10px; }
+    .list-item { background: #f8fafc; padding: 10px; margin: 10px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
   </style>
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h2><i class="fas fa-crown"></i> لوحة القائد</h2>
-    <p>الدفعة 26 · إدارة متكاملة</p>
-  </div>
-  <div class="nav-menu">
-    <div class="nav-item active" data-section="dashboard">
-      <i class="fas fa-tachometer-alt"></i> <span>لوحة المعلومات</span>
-    </div>
-    <div class="nav-item" data-section="announcements">
-      <i class="fas fa-bullhorn"></i> <span>إدارة الإعلانات</span>
-    </div>
-    <div class="nav-item" data-section="library">
-      <i class="fas fa-folder-open"></i> <span>إدارة المكتبة</span>
-    </div>
-    <div class="nav-item" data-section="schedule">
-      <i class="fas fa-calendar-alt"></i> <span>تعديل الجدول</span>
-    </div>
-  </div>
-  <div class="logout-btn" id="logoutBtn">
-    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
-  </div>
-</div>
-
-<div class="main-content">
-  <div class="top-bar">
-    <button class="mobile-menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-    <div class="page-title" id="mainTitle">لوحة القائد</div>
-    <i class="fas fa-user-shield" style="color: var(--primary-color); font-size: 1.4rem;"></i>
-  </div>
-
-  <!-- Dashboard Section -->
-  <div id="dashboardSection" class="section">
-    <div class="stats-grid">
-      <div class="stat-card"><i class="fas fa-newspaper"></i><h3 id="statAnnouncements">0</h3><p>إعلان نشط</p></div>
-      <div class="stat-card"><i class="fas fa-book"></i><h3 id="statLibrary">0</h3><p>مادة تعليمية</p></div>
-      <div class="stat-card"><i class="fas fa-chalkboard"></i><h3 id="statDays">5</h3><p>أيام دراسية</p></div>
-    </div>
-    <div class="panel">
-      <h3><i class="fas fa-info-circle"></i> ترحيب القائد</h3>
-      <p>مرحباً قائد دفعة 26، يمكنك من هنا إدارة كل محتوى الموقع: نشر إعلانات، تحديث المكتبة الرقمية، وتعديل الجدول الدراسي. جميع التغييرات تُحفظ تلقائياً وتظهر فوراً للطلاب.</p>
-    </div>
-  </div>
-
-  <!-- Announcements Management -->
-  <div id="announcementsSection" class="section" style="display:none;">
-    <div class="panel">
-      <h3>➕ إضافة إعلان جديد</h3>
-      <form id="announcementForm">
-        <input type="text" id="annTitle" placeholder="عنوان الإعلان" required>
-        <textarea id="annContent" rows="3" placeholder="نص الإعلان" required></textarea>
-        <input type="text" id="annDate" placeholder="التاريخ (مثال: 12 أبريل 2026)">
-        <button type="submit"><i class="fas fa-plus"></i> نشر الإعلان</button>
-      </form>
-    </div>
-    <div class="panel">
-      <h3>📋 قائمة الإعلانات</h3>
-      <div id="announcementsList"></div>
-    </div>
-  </div>
-
-  <!-- Library Management -->
-  <div id="librarySection" class="section" style="display:none;">
-    <div class="panel">
-      <h3>📚 إضافة مادة / رابط جديد</h3>
-      <form id="libraryForm">
-        <input type="text" id="libCategory" placeholder="اسم المادة (مثال: دوائر كهربائية)" required>
-        <input type="text" id="libTitle" placeholder="عنوان المادة (مثال: محاضرة 1)" required>
-        <input type="text" id="libUrl" placeholder="الرابط (URL)" value="#">
-        <select id="libIcon">
-          <option value="file-pdf">ملف PDF</option>
-          <option value="link">رابط خارجي</option>
-          <option value="video">فيديو</option>
-          <option value="code">كود برمجي</option>
-          <option value="book">كتاب مرجعي</option>
-        </select>
-        <button type="submit"><i class="fas fa-save"></i> إضافة المادة</button>
-      </form>
-    </div>
-    <div class="panel">
-      <h3>📖 المواد الحالية</h3>
-      <div id="libraryList"></div>
-    </div>
-  </div>
-
-  <!-- Schedule Management -->
-  <div id="scheduleSection" class="section" style="display:none;">
-    <div class="panel schedule-editor">
-      <h3>📅 تحرير الجدول الدراسي</h3>
-      <p>يمكنك تعديل المحتوى مباشرة (كل خلية قابلة للتعديل). التغييرات تُحفظ تلقائياً.</p>
-      <div style="overflow-x: auto;">
-        <table id="editableSchedule">
-          <thead>
-            <tr><th>اليوم</th><th>8:00 - 10:00</th><th>10:00 - 12:00</th><th>12:00 - 2:00</th></tr>
-          </thead>
-          <tbody id="scheduleEditBody"></tbody>
-        </table>
-      </div>
-      <button id="addScheduleRow" style="margin-top:1rem; background:var(--success);"><i class="fas fa-plus"></i> إضافة يوم جديد</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  // ---------- Keys ----------
-  const STORAGE = {
-    ANNOUNCEMENTS: 'batch26_announcements',
-    LIBRARY: 'batch26_library',
-    SCHEDULE: 'batch26_schedule'
-  };
-
-  // Default data (if empty)
-  const defaultAnnouncements = [
-    { id: 'ann1', title: '📢 بداية الفصل الدراسي', content: 'تبدأ المحاضرات يوم الأحد القادم الساعة 9 صباحاً.', date: '10 أبريل 2026' },
-    { id: 'ann2', title: '⚙️ اجتماع القائد', content: 'الاجتماع الأسبوعي يوم الثلاثاء الساعة 2 ظهراً.', date: '8 أبريل 2026' }
-  ];
-  const defaultLibrary = [
-    { id: 'lib1', category: 'الدوائر الكهربائية', title: 'محاضرات الأسبوع الأول', url: '#', icon: 'file-pdf' },
-    { id: 'lib2', category: 'الرياضيات الهندسية', title: 'ملزمة التكامل', url: '#', icon: 'file-pdf' },
-    { id: 'lib3', category: 'برمجة الحاسوب', title: 'تمارين Python', url: '#', icon: 'code' }
-  ];
-  const defaultSchedule = [
-    { day: 'الأحد', first: 'دوائر كهربائية (1)', second: 'رياضيات هندسية', third: '-- بريك --' },
-    { day: 'الاثنين', first: 'برمجة الحاسوب', second: '-- بريك --', third: 'فيزياء حديثة' },
-    { day: 'الثلاثاء', first: 'إلكترونيات', second: 'رياضيات هندسية', third: 'معمل دوائر' },
-    { day: 'الأربعاء', first: 'ميكانيكا', second: '-- بريك --', third: 'ورشة تصميم' },
-    { day: 'الخميس', first: 'مراجعة عامة', second: 'نشاط طلابي', third: '-- بريك --' }
-  ];
-
-  // Helper: load or init
-  function loadData(key, defaultVal) {
-    const stored = localStorage.getItem(key);
-    if (stored) return JSON.parse(stored);
-    localStorage.setItem(key, JSON.stringify(defaultVal));
-    return defaultVal;
-  }
-
-  function saveData(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-
-  // ---------- Announcements ----------
-  let announcements = [];
-  function refreshAnnouncementsUI() {
-    announcements = loadData(STORAGE.ANNOUNCEMENTS, defaultAnnouncements);
-    const container = document.getElementById('announcementsList');
-    if (!container) return;
-    if (announcements.length === 0) {
-      container.innerHTML = '<div class="list-item">لا توجد إعلانات</div>';
-      return;
+  <script>
+    if (sessionStorage.getItem('isAdmin') !== 'true') {
+      alert('غير مسموح بالدخول!');
+      window.location.href = 'index.html';
     }
-    container.innerHTML = announcements.map(ann => `
-      <div class="list-item" data-id="${ann.id}">
-        <div><strong>${escapeHtml(ann.title)}</strong><br><small>${escapeHtml(ann.date)}</small><br>${escapeHtml(ann.content)}</div>
-        <div class="list-actions">
-          <button class="edit-btn" onclick="editAnnouncement('${ann.id}')"><i class="fas fa-edit"></i> تعديل</button>
-          <button class="delete-btn" onclick="deleteAnnouncement('${ann.id}')"><i class="fas fa-trash"></i> حذف</button>
-        </div>
-      </div>
-    `).join('');
-    updateStats();
-  }
+  </script>
 
-  window.editAnnouncement = function(id) {
-    const ann = announcements.find(a => a.id === id);
-    if (!ann) return;
-    const newTitle = prompt('تعديل العنوان:', ann.title);
-    if (newTitle !== null) ann.title = newTitle;
-    const newContent = prompt('تعديل المحتوى:', ann.content);
-    if (newContent !== null) ann.content = newContent;
-    const newDate = prompt('التاريخ:', ann.date);
-    if (newDate !== null) ann.date = newDate;
-    saveData(STORAGE.ANNOUNCEMENTS, announcements);
-    refreshAnnouncementsUI();
-  };
+  <div class="sidebar">
+    <h2>لوحة القائد</h2><br>
+    <p onclick="show('ann')" style="cursor:pointer"><i class="fas fa-bullhorn"></i> الإعلانات</p><br>
+    <p onclick="show('lib')" style="cursor:pointer"><i class="fas fa-book"></i> المكتبة</p><br>
+    <p onclick="show('sch')" style="cursor:pointer"><i class="fas fa-calendar"></i> الجدول</p><br>
+    <hr><br>
+    <button class="btn-danger" onclick="logout()">تسجيل خروج</button>
+  </div>
 
-  window.deleteAnnouncement = function(id) {
-    if (confirm('هل أنت متأكد من حذف هذا الإعلان؟')) {
-      announcements = announcements.filter(a => a.id !== id);
-      saveData(STORAGE.ANNOUNCEMENTS, announcements);
-      refreshAnnouncementsUI();
+  <div class="main">
+    <h1>الإدارة العامة</h1>
+    
+    <div class="panel">
+      <h3>📥 إدارة البيانات (Backup)</h3>
+      <p>احتفظ بنسخة من بياناتك أو استعدها من ملف JSON.</p><br>
+      <button class="btn-backup" onclick="exportData()"><i class="fas fa-download"></i> تصدير نسخة احتياطية</button>
+      <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+      <button class="btn-backup" style="background:#f59e0b" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> استيراد نسخة</button>
+    </div>
+
+    <div id="ann" class="panel section">
+      <h3>إضافة إعلان</h3>
+      <input type="text" id="annTitle" placeholder="العنوان">
+      <textarea id="annContent" placeholder="المحتوى"></textarea>
+      <button onclick="addAnn()">نشر</button>
+      <div id="annList"></div>
+    </div>
+
+    <div id="lib" class="panel section" style="display:none">
+      <h3>إضافة للمكتبة</h3>
+      <input type="text" id="libCat" placeholder="المادة">
+      <input type="text" id="libTitle" placeholder="اسم الملف">
+      <input type="text" id="libUrl" placeholder="الرابط">
+      <select id="libIcon"><option value="file-pdf">PDF</option><option value="link">رابط</option></select>
+      <button onclick="addLib()">إضافة</button>
+      <div id="libList"></div>
+    </div>
+
+    <div id="sch" class="panel section" style="display:none">
+      <h3>تعديل الجدول</h3>
+      <table>
+        <thead><tr><th>اليوم</th><th>8-10</th><th>10-12</th><th>12-2</th><th>حذف</th></tr></thead>
+        <tbody id="schEditBody"></tbody>
+      </table><br>
+      <button onclick="addSchRow()">إضافة يوم جديد</button>
+    </div>
+  </div>
+
+  <script>
+    const KEYS = { ANN: 'batch26_announcements', LIB: 'batch26_library', SCH: 'batch26_schedule' };
+
+    function show(id) {
+      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
     }
-  };
 
-  document.getElementById('announcementForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const title = document.getElementById('annTitle').value.trim();
-    const content = document.getElementById('annContent').value.trim();
-    let date = document.getElementById('annDate').value.trim();
-    if (!title || !content) return alert('العنوان والمحتوى مطلوبان');
-    if (!date) date = new Date().toLocaleDateString('ar-EG');
-    const newId = 'ann_' + Date.now();
-    announcements.push({ id: newId, title, content, date });
-    saveData(STORAGE.ANNOUNCEMENTS, announcements);
-    refreshAnnouncementsUI();
-    e.target.reset();
-  });
+    // --- وظائف النسخ الاحتياطي ---
+    function exportData() {
+      const data = {
+        announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'),
+        library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]'),
+        schedule: JSON.parse(localStorage.getItem(KEYS.SCH) || '[]')
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_batch26_${new Date().toLocaleDateString()}.json`;
+      a.click();
+    }
 
-  // ---------- Library Management ----------
-  let libraryItems = [];
-  function refreshLibraryUI() {
-    libraryItems = loadData(STORAGE.LIBRARY, defaultLibrary);
-    const container = document.getElementById('libraryList');
-    if (!container) return;
-    if (libraryItems.length === 0) container.innerHTML = '<div class="list-item">لا توجد مواد</div>';
-    else {
-      container.innerHTML = libraryItems.map(item => `
-        <div class="list-item" data-id="${item.id}">
-          <div><strong>${escapeHtml(item.category)}</strong> | ${escapeHtml(item.title)} <br> <i class="fas fa-${item.icon}"></i> ${escapeHtml(item.url)}</div>
-          <div class="list-actions">
-            <button class="edit-btn" onclick="editLibraryItem('${item.id}')"><i class="fas fa-edit"></i> تعديل</button>
-            <button class="delete-btn" onclick="deleteLibraryItem('${item.id}')"><i class="fas fa-trash"></i> حذف</button>
-          </div>
-        </div>
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if(confirm('سيتم استبدال البيانات الحالية بالنسخة المستوردة، استمرار؟')) {
+            localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
+            localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
+            localStorage.setItem(KEYS.SCH, JSON.stringify(data.schedule || []));
+            alert('تم استيراد البيانات بنجاح!');
+            location.reload();
+          }
+        } catch (err) { alert('خطأ في تنسيق الملف!'); }
+      };
+      reader.readAsText(file);
+    }
+
+    // --- الوظائف الأساسية للإدارة ---
+    function addAnn() {
+      const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
+      list.unshift({ 
+        id: Date.now(), 
+        title: document.getElementById('annTitle').value, 
+        content: document.getElementById('annContent').value,
+        date: new Date().toLocaleDateString('ar-EG')
+      });
+      localStorage.setItem(KEYS.ANN, JSON.stringify(list));
+      renderAnn();
+    }
+
+    function renderAnn() {
+      const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
+      document.getElementById('annList').innerHTML = list.map(a => `
+        <div class="list-item">${a.title} <button class="btn-danger" onclick="del('${KEYS.ANN}', ${a.id})">حذف</button></div>
       `).join('');
     }
-    updateStats();
-  }
 
-  window.editLibraryItem = function(id) {
-    const item = libraryItems.find(i => i.id === id);
-    if (!item) return;
-    const newCat = prompt('المادة (التصنيف):', item.category);
-    if (newCat !== null) item.category = newCat;
-    const newTitle = prompt('العنوان:', item.title);
-    if (newTitle !== null) item.title = newTitle;
-    const newUrl = prompt('الرابط:', item.url);
-    if (newUrl !== null) item.url = newUrl;
-    saveData(STORAGE.LIBRARY, libraryItems);
-    refreshLibraryUI();
-  };
-
-  window.deleteLibraryItem = function(id) {
-    if (confirm('حذف هذه المادة؟')) {
-      libraryItems = libraryItems.filter(i => i.id !== id);
-      saveData(STORAGE.LIBRARY, libraryItems);
-      refreshLibraryUI();
+    function addLib() {
+      const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
+      list.push({
+        id: Date.now(),
+        category: document.getElementById('libCat').value,
+        title: document.getElementById('libTitle').value,
+        url: document.getElementById('libUrl').value,
+        icon: document.getElementById('libIcon').value
+      });
+      localStorage.setItem(KEYS.LIB, JSON.stringify(list));
+      renderLib();
     }
-  };
 
-  document.getElementById('libraryForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const category = document.getElementById('libCategory').value.trim();
-    const title = document.getElementById('libTitle').value.trim();
-    const url = document.getElementById('libUrl').value.trim();
-    const icon = document.getElementById('libIcon').value;
-    if (!category || !title) return alert('يرجى ملء المادة والعنوان');
-    const newId = 'lib_' + Date.now();
-    libraryItems.push({ id: newId, category, title, url: url || '#', icon });
-    saveData(STORAGE.LIBRARY, libraryItems);
-    refreshLibraryUI();
-    e.target.reset();
-    document.getElementById('libUrl').value = '#';
-  });
-
-  // ---------- Schedule Management (editable table + add row) ----------
-  let scheduleData = [];
-  function renderEditableSchedule() {
-    scheduleData = loadData(STORAGE.SCHEDULE, defaultSchedule);
-    const tbody = document.getElementById('scheduleEditBody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    scheduleData.forEach((row, idx) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><input type="text" value="${escapeHtml(row.day)}" data-field="day" data-idx="${idx}" class="schedule-input"></td>
-        <td><input type="text" value="${escapeHtml(row.first)}" data-field="first" data-idx="${idx}" class="schedule-input"></td>
-        <td><input type="text" value="${escapeHtml(row.second)}" data-field="second" data-idx="${idx}" class="schedule-input"></td>
-        <td><input type="text" value="${escapeHtml(row.third)}" data-field="third" data-idx="${idx}" class="schedule-input"></td>
-        <td><button class="delete-btn" onclick="deleteScheduleRow(${idx})" style="padding:5px 10px;"><i class="fas fa-times"></i> حذف</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
-    attachScheduleEvents();
-    updateStats();
-  }
-
-  function attachScheduleEvents() {
-    document.querySelectorAll('.schedule-input').forEach(input => {
-      input.removeEventListener('change', saveScheduleChange);
-      input.addEventListener('change', saveScheduleChange);
-    });
-  }
-
-  function saveScheduleChange(e) {
-    const idx = parseInt(e.target.dataset.idx);
-    const field = e.target.dataset.field;
-    const newVal = e.target.value;
-    if (isNaN(idx)) return;
-    scheduleData[idx][field] = newVal;
-    saveData(STORAGE.SCHEDULE, scheduleData);
-  }
-
-  window.deleteScheduleRow = function(idx) {
-    if (scheduleData.length <= 1) return alert('يجب أن يبقى يوم واحد على الأقل');
-    if (confirm('حذف هذا اليوم من الجدول؟')) {
-      scheduleData.splice(idx, 1);
-      saveData(STORAGE.SCHEDULE, scheduleData);
-      renderEditableSchedule();
+    function renderLib() {
+      const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
+      document.getElementById('libList').innerHTML = list.map(i => `
+        <div class="list-item">${i.category} - ${i.title} <button class="btn-danger" onclick="del('${KEYS.LIB}', ${i.id})">حذف</button></div>
+      `).join('');
     }
-  };
 
-  document.getElementById('addScheduleRow')?.addEventListener('click', () => {
-    scheduleData.push({ day: 'يوم جديد', first: '---', second: '---', third: '---' });
-    saveData(STORAGE.SCHEDULE, scheduleData);
-    renderEditableSchedule();
-  });
+    function renderSch() {
+      const list = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]');
+      document.getElementById('schEditBody').innerHTML = list.map((r, idx) => `
+        <tr>
+          <td><input value="${r.day}" onchange="updSch(${idx}, 'day', this.value)"></td>
+          <td><input value="${r.first}" onchange="updSch(${idx}, 'first', this.value)"></td>
+          <td><input value="${r.second}" onchange="updSch(${idx}, 'second', this.value)"></td>
+          <td><input value="${r.third}" onchange="updSch(${idx}, 'third', this.value)"></td>
+          <td><button class="btn-danger" onclick="delSch(${idx})">X</button></td>
+        </tr>
+      `).join('');
+    }
 
-  // ---------- Dashboard Stats ----------
-  function updateStats() {
-    const annCount = announcements.length;
-    const libCount = libraryItems.length;
-    document.getElementById('statAnnouncements').innerText = annCount;
-    document.getElementById('statLibrary').innerText = libCount;
-    document.getElementById('statDays').innerText = scheduleData.length;
-  }
+    function updSch(idx, field, val) {
+      const list = JSON.parse(localStorage.getItem(KEYS.SCH));
+      list[idx][field] = val;
+      localStorage.setItem(KEYS.SCH, JSON.stringify(list));
+    }
 
-  // ---------- UI Navigation & Section toggling ----------
-  const sections = ['dashboardSection', 'announcementsSection', 'librarySection', 'scheduleSection'];
-  function showSection(sectionId) {
-    sections.forEach(sec => {
-      const el = document.getElementById(sec);
-      if (el) el.style.display = 'none';
-    });
-    document.getElementById(sectionId).style.display = 'block';
-    // update page title
-    const titleMap = {
-      dashboardSection: 'لوحة المعلومات',
-      announcementsSection: 'إدارة الإعلانات',
-      librarySection: 'إدارة المكتبة الرقمية',
-      scheduleSection: 'تعديل الجدول الدراسي'
+    function addSchRow() {
+      const list = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]');
+      list.push({ day: 'اليوم', first: '-', second: '-', third: '-' });
+      localStorage.setItem(KEYS.SCH, JSON.stringify(list));
+      renderSch();
+    }
+
+    window.del = (key, id) => {
+      let list = JSON.parse(localStorage.getItem(key));
+      list = list.filter(i => i.id !== id);
+      localStorage.setItem(key, JSON.stringify(list));
+      key === KEYS.ANN ? renderAnn() : renderLib();
     };
-    document.getElementById('mainTitle').innerText = titleMap[sectionId];
-    // update active nav
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(nav => {
-      const section = nav.dataset.section;
-      if (section === 'dashboard' && sectionId === 'dashboardSection') return true;
-      if (section === 'announcements' && sectionId === 'announcementsSection') return true;
-      if (section === 'library' && sectionId === 'librarySection') return true;
-      if (section === 'schedule' && sectionId === 'scheduleSection') return true;
-      return false;
-    });
-    if (activeNav) activeNav.classList.add('active');
-  }
 
-  document.querySelectorAll('.nav-item').forEach(nav => {
-    nav.addEventListener('click', () => {
-      const sec = nav.dataset.section;
-      if (sec === 'dashboard') showSection('dashboardSection');
-      else if (sec === 'announcements') showSection('announcementsSection');
-      else if (sec === 'library') showSection('librarySection');
-      else if (sec === 'schedule') showSection('scheduleSection');
-      if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-    });
-  });
+    window.delSch = (idx) => {
+      let list = JSON.parse(localStorage.getItem(KEYS.SCH));
+      list.splice(idx, 1);
+      localStorage.setItem(KEYS.SCH, JSON.stringify(list));
+      renderSch();
+    };
 
-  // logout & mobile toggle
-  document.getElementById('logoutBtn')?.addEventListener('click', () => {
-    window.location.href = 'index.html';
-  });
-  document.getElementById('menuToggle')?.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
-  });
+    function logout() {
+      sessionStorage.removeItem('isAdmin');
+      window.location.href = 'index.html';
+    }
 
-  // Helper escape
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  // Initial load
-  announcements = loadData(STORAGE.ANNOUNCEMENTS, defaultAnnouncements);
-  libraryItems = loadData(STORAGE.LIBRARY, defaultLibrary);
-  scheduleData = loadData(STORAGE.SCHEDULE, defaultSchedule);
-  refreshAnnouncementsUI();
-  refreshLibraryUI();
-  renderEditableSchedule();
-  showSection('dashboardSection');
-</script>
+    renderAnn(); renderLib(); renderSch();
+  </script>
 </body>
 </html>
