@@ -3,608 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>الدفعة 26 | كلية الهندسة - الطلاب</title>
+  <title>الدفعة 26 | كلية الهندسة</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* حافظ على نفس تنسيقات CSS السابقة الخاصة بك هنا */
     :root {
-      --primary-color: #2563eb;
-      --bg-color: #f1f5f9;
-      --sidebar-color: #0f172a;
-      --text-color: #1e293b;
-      --accent-color: #3b82f6;
-      --white: #ffffff;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      --border-radius: 16px;
+      --primary-color: #2563eb; --bg-color: #f1f5f9; --sidebar-color: #0f172a;
+      --text-color: #1e293b; --accent-color: #3b82f6; --white: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); --border-radius: 16px;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-
-    /* Navbar */
-    nav {
-      background: var(--sidebar-color);
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      color: var(--white);
-      font-weight: bold;
-      font-size: 1.5rem;
-    }
-
-    .logo span {
-      color: var(--accent-color);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: #cbd5e1;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: 0.3s;
-      padding: 0.3rem 0;
-    }
-
-    .nav-links a:hover {
-      color: var(--white);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    /* Hero */
-    .hero {
-      background: linear-gradient(135deg, #1e40af, var(--primary-color));
-      color: var(--white);
-      padding: 60px 5%;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    /* Hero Cards */
-    .hero-bx {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-top: -40px;
-      padding: 0 5%;
-    }
-
-    .bx {
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      text-align: center;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      flex: 1;
-      min-width: 180px;
-      max-width: 240px;
-    }
-
-    .bx:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .bx i {
-      color: var(--primary-color);
-      margin-bottom: 0.8rem;
-    }
-
-    .bx h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .bx p {
-      font-size: 0.85rem;
-      color: #64748b;
-    }
-
-    /* Search */
-    .Search {
-      padding: 2rem 5%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .Search-bx {
-      display: flex;
-      align-items: center;
-      background: var(--white);
-      border-radius: 60px;
-      box-shadow: var(--shadow);
-      width: 100%;
-      max-width: 550px;
-      overflow: hidden;
-    }
-
-    .Search-bx input {
-      flex: 1;
-      border: none;
-      outline: none;
-      padding: 0.9rem 1.2rem;
-      font-size: 1rem;
-      text-align: right;
-    }
-
-    .Search-bx button {
-      background: var(--primary-color);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .Search-bx button:hover {
-      background: var(--accent-color);
-    }
-
-    /* Sections */
-    .main-section {
-      padding: 2rem 5%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px solid var(--accent-color);
-      padding-bottom: 0.5rem;
-    }
-
-    .section-header h2 {
-      font-size: 1.6rem;
-    }
-
-    /* Announcements */
-    .news-item {
-      background: var(--white);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      box-shadow: var(--shadow);
-    }
-
-    .news-date {
-      background: var(--accent-color);
-      color: white;
-      padding: 0.3rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-
-    .news-title {
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    /* Academic Library Grid */
-    .academic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .subject-card {
-      background: var(--white);
-      padding: 1.2rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      border-right: 4px solid var(--primary-color);
-    }
-
-    .subject-card h4 {
-      margin-bottom: 0.8rem;
-      color: var(--primary-color);
-      font-size: 1.2rem;
-    }
-
-    .subject-card a {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--text-color);
-      font-size: 0.9rem;
-      margin: 0.5rem 0;
-      transition: 0.2s;
-    }
-
-    .subject-card a i {
-      width: 24px;
-      color: var(--accent-color);
-    }
-
-    .subject-card a:hover {
-      color: var(--primary-color);
-      transform: translateX(-5px);
-    }
-
-    /* Table */
-    .table-container {
-      overflow-x: auto;
-      background: var(--white);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    th {
-      background: var(--primary-color);
-      color: white;
-      font-weight: 600;
-    }
-
-    tr:hover {
-      background: #f8fafc;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: #64748b;
-      font-size: 0.85rem;
-      border-top: 1px solid #cbd5e1;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        width: 100%;
-        justify-content: center;
-        margin-top: 0.8rem;
-        gap: 1rem;
-      }
-
-      .hero h1 {
-        font-size: 1.6rem;
-      }
-
-      .section-header h2 {
-        font-size: 1.3rem;
-      }
-
-      .news-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; scroll-behavior: smooth; }
+    nav { background: var(--sidebar-color); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+    .logo { color: var(--white); font-weight: bold; font-size: 1.5rem; cursor: pointer; }
+    .logo span { color: var(--accent-color); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
+    .nav-links a:hover { color: var(--white); border-bottom: 2px solid var(--accent-color); }
+    .hero { background: linear-gradient(135deg, #1e40af, var(--primary-color)); color: var(--white); padding: 60px 5%; text-align: center; }
+    .hero-bx { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: -40px; padding: 0 5%; }
+    .bx { background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); text-align: center; box-shadow: var(--shadow); transition: 0.2s; cursor: pointer; flex: 1; min-width: 180px; max-width: 240px; }
+    .bx:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+    .Search { padding: 2rem 5%; display: flex; justify-content: center; }
+    .Search-bx { display: flex; align-items: center; background: var(--white); border-radius: 60px; box-shadow: var(--shadow); width: 100%; max-width: 550px; overflow: hidden; }
+    .Search-bx input { flex: 1; border: none; outline: none; padding: 0.9rem 1.2rem; text-align: right; }
+    .Search-bx button { background: var(--primary-color); color: white; width: 50px; height: 50px; border: none; cursor: pointer; }
+    .main-section { padding: 2rem 5%; max-width: 1200px; margin: 0 auto; }
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; }
+    .news-item { background: var(--white); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow); }
+    .news-date { background: var(--accent-color); color: white; padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.8rem; }
+    .academic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .subject-card { background: var(--white); padding: 1.2rem; border-radius: 12px; box-shadow: var(--shadow); border-right: 4px solid var(--primary-color); }
+    .subject-card a { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-color); margin: 0.5rem 0; transition: 0.2s; }
+    .subject-card a:hover { transform: translateX(-5px); color: var(--primary-color); }
+    .table-container { overflow-x: auto; background: var(--white); border-radius: 12px; box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; text-align: center; }
+    th { background: var(--primary-color); color: white; padding: 12px; }
+    td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+    footer { text-align: center; padding: 2rem; color: #64748b; border-top: 1px solid #cbd5e1; margin-top: 2rem; }
   </style>
 </head>
-
 <body>
   <header>
     <nav>
-      <div class="logo">الدفعة <span>26</span></div>
+      <div class="logo" id="mainLogo">الدفعة <span>26</span></div>
       <div class="nav-links">
         <a href="#news">الإعلانات</a>
-        <a href="#schedule">الجدول الدراسي</a>
-        <a href="#library">المكتبة الرقمية</a>
+        <a href="#schedule">الجدول</a>
+        <a href="#library">المكتبة</a>
       </div>
     </nav>
   </header>
 
   <div class="hero">
-    <h1>مرحباً بكم في منصة المهندسين</h1>
-    <p>المصدر الرسمي لتحديثات الدفعة 26 - كلية الهندسة</p>
+    <h1>منصة المهندسين | الدفعة 26</h1>
+    <p>تحديثات أكاديمية ولحظية</p>
   </div>
 
   <div class="hero-bx">
-    <div class="bx" onclick="location.href='#schedule'">
-      <i class="fas fa-calendar-day fa-2x"></i>
-      <h3>الجدول اليومي</h3>
-      <p>محاضرات محدثة</p>
-    </div>
-    <div class="bx" onclick="location.href='#library'">
-      <i class="fas fa-book-open fa-2x"></i>
-      <h3>المكتبة</h3>
-      <p>المصادر الدراسية</p>
-    </div>
-    <div class="bx" onclick="location.href='#news'">
-      <i class="fas fa-bullhorn fa-2x"></i>
-      <h3>آخر التنبيهات</h3>
-      <p>إعلانات القائد</p>
-    </div>
+    <div class="bx" onclick="location.href='#schedule'"><i class="fas fa-calendar-day fa-2x"></i><h3>الجدول</h3></div>
+    <div class="bx" onclick="location.href='#library'"><i class="fas fa-book-open fa-2x"></i><h3>المكتبة</h3></div>
+    <div class="bx" onclick="location.href='#news'"><i class="fas fa-bullhorn fa-2x"></i><h3>الإعلانات</h3></div>
   </div>
 
   <div class="Search">
     <div class="Search-bx">
-      <input type="text" id="searchInput" placeholder="ابحث عن مادة، ملخص، أو إعلان...">
+      <input type="text" id="searchInput" placeholder="ابحث هنا...">
       <button id="searchBtn"><i class="fas fa-search"></i></button>
     </div>
   </div>
 
-  <!-- قسم الإعلانات -->
   <section id="news" class="main-section">
-    <div class="section-header">
-      <i class="fas fa-bullhorn fa-lg" style="color: var(--primary-color);"></i>
-      <h2>آخر الإعلانات</h2>
-    </div>
+    <div class="section-header"><h2><i class="fas fa-bullhorn"></i> آخر الإعلانات</h2></div>
     <div id="announcementsContainer"></div>
   </section>
 
-  <!-- قسم الجدول الدراسي -->
   <section id="schedule" class="main-section">
-    <div class="section-header">
-      <i class="fas fa-calendar-alt fa-lg" style="color: var(--primary-color);"></i>
-      <h2>الجدول الدراسي التفاعلي</h2>
-    </div>
-    <div class="table-container">
-      <table id="scheduleTable">
-        <thead>
-          <tr>
-            <th>اليوم</th>
-            <th>8:00 - 10:00</th>
-            <th>10:00 - 12:00</th>
-            <th>12:00 - 2:00</th>
-          </tr>
-        </thead>
-        <tbody id="scheduleBody"></tbody>
-      </table>
-    </div>
+    <div class="section-header"><h2><i class="fas fa-calendar-alt"></i> الجدول الدراسي</h2></div>
+    <div class="table-container"><table><thead><tr><th>اليوم</th><th>8-10</th><th>10-12</th><th>12-2</th></tr></thead><tbody id="scheduleBody"></tbody></table></div>
   </section>
 
-  <!-- قسم المكتبة الرقمية -->
   <section id="library" class="main-section">
-    <div class="section-header">
-      <i class="fas fa-folder-open fa-lg" style="color: var(--primary-color);"></i>
-      <h2>المكتبة الرقمية - مواد الدفعة</h2>
-    </div>
+    <div class="section-header"><h2><i class="fas fa-folder-open"></i> المكتبة الرقمية</h2></div>
     <div id="libraryContainer" class="academic-grid"></div>
   </section>
 
-  <footer>
-    تم التطوير بواسطة ليدر الدفعة 26 &copy; 2026
-  </footer>
+  <footer>تم التطوير بواسطة ليدر الدفعة 26 &copy; 2026</footer>
 
   <script>
-    // ---------- مفاتيح التخزين المحلي ----------
-    const STORAGE = {
-      ANNOUNCEMENTS: 'batch26_announcements',
-      LIBRARY: 'batch26_library',
-      SCHEDULE: 'batch26_schedule'
-    };
+    const STORAGE = { ANN: 'batch26_announcements', LIB: 'batch26_library', SCH: 'batch26_schedule' };
 
-    // ---------- البيانات الافتراضية (تستخدم عند عدم وجود بيانات) ----------
-    const defaultAnnouncements = [
-      { id: 'ann1', title: '📢 بداية الفصل الدراسي', content: 'تبدأ المحاضرات يوم الأحد القادم الساعة 9 صباحاً. نتمنى للجميع عاماً دراسياً موفقاً.', date: '10 أبريل 2026' },
-      { id: 'ann2', title: '⚙️ اجتماع القائد', content: 'الاجتماع الأسبوعي للقادة يوم الثلاثاء الساعة 2 ظهراً في قاعة المناقشات.', date: '8 أبريل 2026' },
-      { id: 'ann3', title: '🏆 مسابقة الابتكار', content: 'التسجيل مفتوح حتى 20 أبريل. جوائز قيمة للمشاريع المتميزة.', date: '5 أبريل 2026' }
-    ];
-
-    const defaultLibrary = [
-      { id: 'lib1', category: 'الدوائر الكهربائية', title: 'محاضرات الأسبوع الأول', url: '#', icon: 'file-pdf' },
-      { id: 'lib2', category: 'الدوائر الكهربائية', title: 'مراجع إضافية للحلول', url: '#', icon: 'link' },
-      { id: 'lib3', category: 'الرياضيات الهندسية', title: 'ملزمة التكامل', url: '#', icon: 'file-pdf' },
-      { id: 'lib4', category: 'الرياضيات الهندسية', title: 'فيديوهات شرح', url: '#', icon: 'video' },
-      { id: 'lib5', category: 'برمجة الحاسوب', title: 'تمارين Python محلولة', url: '#', icon: 'code' },
-      { id: 'lib6', category: 'برمجة الحاسوب', title: 'المرجع المعتمد', url: '#', icon: 'book' }
-    ];
-
-    const defaultSchedule = [
-      { day: 'الأحد', first: 'دوائر كهربائية (1)', second: 'رياضيات هندسية', third: '-- بريك --' },
-      { day: 'الاثنين', first: 'برمجة الحاسوب', second: '-- بريك --', third: 'فيزياء حديثة' },
-      { day: 'الثلاثاء', first: 'إلكترونيات', second: 'رياضيات هندسية', third: 'معمل دوائر' },
-      { day: 'الأربعاء', first: 'ميكانيكا', second: '-- بريك --', third: 'ورشة تصميم' },
-      { day: 'الخميس', first: 'مراجعة عامة', second: 'نشاط طلابي', third: '-- بريك --' }
-    ];
-
-    // تهيئة localStorage
-    function initializeData() {
-      if (!localStorage.getItem(STORAGE.ANNOUNCEMENTS)) {
-        localStorage.setItem(STORAGE.ANNOUNCEMENTS, JSON.stringify(defaultAnnouncements));
-      }
-      if (!localStorage.getItem(STORAGE.LIBRARY)) {
-        localStorage.setItem(STORAGE.LIBRARY, JSON.stringify(defaultLibrary));
-      }
-      if (!localStorage.getItem(STORAGE.SCHEDULE)) {
-        localStorage.setItem(STORAGE.SCHEDULE, JSON.stringify(defaultSchedule));
-      }
+    function refreshUI() {
+      renderAnn(); renderLib(); renderSch();
     }
 
-    // عرض الإعلانات
-    function renderAnnouncements() {
-      const container = document.getElementById('announcementsContainer');
-      const announcements = JSON.parse(localStorage.getItem(STORAGE.ANNOUNCEMENTS)) || [];
-      if (announcements.length === 0) {
-        container.innerHTML = '<div class="news-item">⚠️ لا توجد إعلانات حالياً</div>';
-        return;
-      }
-      container.innerHTML = announcements.map(ann => `
-        <div class="news-item">
-          <span class="news-date">${escapeHtml(ann.date)}</span>
-          <span class="news-title">${escapeHtml(ann.title)}</span>
-          <p style="flex:1; margin:0;">${escapeHtml(ann.content)}</p>
-        </div>
-      `).join('');
+    function renderAnn() {
+      const data = JSON.parse(localStorage.getItem(STORAGE.ANN) || '[]');
+      document.getElementById('announcementsContainer').innerHTML = data.map(a => `
+        <div class="news-item"><span class="news-date">${a.date}</span><strong>${a.title}</strong><p>${a.content}</p></div>
+      `).join('') || 'لا توجد إعلانات';
     }
 
-    // عرض المكتبة الرقمية (مجمعة حسب المادة)
-    function renderLibrary() {
-      const container = document.getElementById('libraryContainer');
-      const libraryItems = JSON.parse(localStorage.getItem(STORAGE.LIBRARY)) || [];
-      if (libraryItems.length === 0) {
-        container.innerHTML = '<div class="subject-card">📂 لا توجد مواد مضافة بعد</div>';
-        return;
-      }
-      // تجميع حسب category
+    function renderLib() {
+      const data = JSON.parse(localStorage.getItem(STORAGE.LIB) || '[]');
       const grouped = {};
-      libraryItems.forEach(item => {
-        if (!grouped[item.category]) grouped[item.category] = [];
-        grouped[item.category].push(item);
-      });
-      let html = '';
-      for (const [category, items] of Object.entries(grouped)) {
-        html += `<div class="subject-card">
-          <h4>📘 ${escapeHtml(category)}</h4>`;
-        items.forEach(item => {
-          let iconClass = 'fa-file-pdf';
-          if (item.icon === 'link') iconClass = 'fa-link';
-          else if (item.icon === 'video') iconClass = 'fa-video';
-          else if (item.icon === 'code') iconClass = 'fa-code';
-          else if (item.icon === 'book') iconClass = 'fa-book';
-          html += `<a href="${escapeHtml(item.url)}" target="_blank"><i class="fas ${iconClass}"></i> ${escapeHtml(item.title)}</a>`;
-        });
-        html += `</div>`;
-      }
-      container.innerHTML = html;
+      data.forEach(item => { if(!grouped[item.category]) grouped[item.category] = []; grouped[item.category].push(item); });
+      document.getElementById('libraryContainer').innerHTML = Object.entries(grouped).map(([cat, items]) => `
+        <div class="subject-card"><h4>${cat}</h4>${items.map(i => `<a href="${i.url}" target="_blank"><i class="fas fa-${i.icon}"></i> ${i.title}</a>`).join('')}</div>
+      `).join('') || 'المكتبة فارغة حالياً';
     }
 
-    // عرض الجدول
-    function renderSchedule() {
-      const tbody = document.getElementById('scheduleBody');
-      const schedule = JSON.parse(localStorage.getItem(STORAGE.SCHEDULE)) || defaultSchedule;
-      tbody.innerHTML = schedule.map(row => `
-        <tr>
-          <td>${escapeHtml(row.day)}</td>
-          <td>${escapeHtml(row.first)}</td>
-          <td>${escapeHtml(row.second)}</td>
-          <td>${escapeHtml(row.third)}</td>
-        </tr>
+    function renderSch() {
+      const data = JSON.parse(localStorage.getItem(STORAGE.SCH) || '[]');
+      document.getElementById('scheduleBody').innerHTML = data.map(r => `
+        <tr><td>${r.day}</td><td>${r.first}</td><td>${r.second}</td><td>${r.third}</td></tr>
       `).join('');
     }
 
-    // دالة مساعدة للـ HTML escaping
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
+    // مزامنة فورية عند التغيير من لوحة المسؤول
+    window.addEventListener('storage', (e) => {
+      if (Object.values(STORAGE).includes(e.key)) refreshUI();
+    });
 
-    // وظيفة البحث (بسيطة: تبحث في الإعلانات وعناوين المكتبة)
-    function performSearch() {
-      const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (query === '') {
-        renderAnnouncements();
-        renderLibrary();
-        renderSchedule();
-        return;
-      }
-      // تصفية الإعلانات
-      const announcements = JSON.parse(localStorage.getItem(STORAGE.ANNOUNCEMENTS)) || [];
-      const filteredAnn = announcements.filter(ann => ann.title.toLowerCase().includes(query) || ann.content.toLowerCase().includes(query));
-      const annContainer = document.getElementById('announcementsContainer');
-      if (filteredAnn.length === 0) annContainer.innerHTML = '<div class="news-item">🔍 لا توجد إعلانات مطابقة</div>';
-      else {
-        annContainer.innerHTML = filteredAnn.map(ann => `
-          <div class="news-item">
-            <span class="news-date">${escapeHtml(ann.date)}</span>
-            <span class="news-title">${escapeHtml(ann.title)}</span>
-            <p>${escapeHtml(ann.content)}</p>
-          </div>
-        `).join('');
-      }
-      // تصفية المكتبة
-      const library = JSON.parse(localStorage.getItem(STORAGE.LIBRARY)) || [];
-      const filteredLib = library.filter(lib => lib.category.toLowerCase().includes(query) || lib.title.toLowerCase().includes(query));
-      const libContainer = document.getElementById('libraryContainer');
-      if (filteredLib.length === 0) libContainer.innerHTML = '<div class="subject-card">📭 لا توجد مواد مطابقة</div>';
-      else {
-        const grouped = {};
-        filteredLib.forEach(item => { if (!grouped[item.category]) grouped[item.category] = []; grouped[item.category].push(item); });
-        let html = '';
-        for (const [category, items] of Object.entries(grouped)) {
-          html += `<div class="subject-card"><h4>📘 ${escapeHtml(category)}</h4>`;
-          items.forEach(item => {
-            let iconClass = 'fa-file-pdf';
-            if (item.icon === 'link') iconClass = 'fa-link';
-            else if (item.icon === 'video') iconClass = 'fa-video';
-            else if (item.icon === 'code') iconClass = 'fa-code';
-            else if (item.icon === 'book') iconClass = 'fa-book';
-            html += `<a href="${escapeHtml(item.url)}" target="_blank"><i class="fas ${iconClass}"></i> ${escapeHtml(item.title)}</a>`;
-          });
-          html += `</div>`;
-        }
-        libContainer.innerHTML = html;
-      }
-      // الجدول لا يتم تصفيته حالياً (يبقى كما هو)
-      renderSchedule();
-    }
-
-    // تحديث كامل الصفحة
-    function refreshAll() {
-      renderAnnouncements();
-      renderLibrary();
-      renderSchedule();
-    }
-
-    // الدخول للوحة القائد مع حماية
-    document.getElementById('adminLoginBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      const password = prompt('🔐 كلمة مرور القائد:');
-      if (password === 'admin126') { // كلمة مرور بسيطة للقيادة
+    // الدخول للمسؤول (نقر مزدوج على اللوجو)
+    document.getElementById('mainLogo').addEventListener('dblclick', () => {
+      const pass = prompt('🔐 كلمة المرور:');
+      if(pass === 'panda@2025') {
+        sessionStorage.setItem('isAdmin', 'true');
         window.location.href = 'admin.html';
-      } else if (password !== null) {
-        alert('كلمة المرور غير صحيحة. غير مسموح بالدخول.');
       }
     });
 
-    // ربط زر البحث
-    document.getElementById('searchBtn').addEventListener('click', performSearch);
-    document.getElementById('searchInput').addEventListener('keyup', function(e) {
-      if (e.key === 'Enter') performSearch();
-    });
-
-    // تهيئة وعرض البيانات
-    initializeData();
-    refreshAll();
+    refreshUI();
   </script>
 </body>
-  </html>
+</html>
