@@ -19,15 +19,16 @@
             --warning: #f59e0b;
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
+            --sidebar-width: 280px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
 
-        body { background: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; }
+        body { background: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; }
 
         /* Sidebar Design */
         .sidebar {
-            width: 280px;
+            width: var(--sidebar-width);
             background: var(--sidebar-bg);
             color: white;
             position: fixed;
@@ -35,8 +36,8 @@
             padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
-            z-index: 1000;
-            transition: 0.3s;
+            z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar-brand {
@@ -62,6 +63,7 @@
             cursor: pointer;
             color: #94a3b8;
             transition: 0.3s;
+            text-decoration: none;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -82,10 +84,10 @@
 
         /* Main Content */
         .main-content {
-            margin-right: 280px;
+            margin-right: var(--sidebar-width);
             padding: 2rem 3rem;
-            width: 100%;
-            max-width: calc(100% - 280px);
+            width: calc(100% - var(--sidebar-width));
+            transition: 0.3s;
         }
 
         header {
@@ -93,12 +95,24 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
 
-        .page-info h1 { font-size: 1.75rem; color: var(--sidebar-bg); }
-        .page-info p { color: var(--text-light); }
+        .mobile-toggle {
+            display: none;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
 
-        /* Statistics Cards */
+        /* Stats & Panels */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -116,256 +130,116 @@
             gap: 1rem;
         }
 
-        .stat-icon {
-            width: 50px; height: 50px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        /* Panel Design */
         .panel {
             background: var(--white);
             border-radius: var(--border-radius);
             padding: 2rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease-out;
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .panel-title {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-right: 0; width: 100%; padding: 1rem; }
+            .mobile-toggle { display: block; }
+            header { padding: 1rem; flex-direction: row-reverse; }
         }
 
-        /* Forms & Inputs */
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); }
+        /* Forms & Tables */
         input, textarea, select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            outline: none;
-            transition: 0.3s;
-            background: #f8fafc;
+            width: 100%; padding: 12px; margin: 8px 0;
+            border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none;
         }
-
-        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
-
-        .action-btns { display: flex; gap: 10px; margin-top: 1rem; }
-
-        button {
-            padding: 12px 24px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex; align-items: center; gap: 8px;
+        button.btn-primary {
+            background: var(--primary); color: white; border: none;
+            padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;
         }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-        .btn-outline { background: transparent; border: 1.5px solid #e2e8f0; color: var(--text-main); }
-        .btn-outline:hover { background: #f1f5f9; }
-
-        /* List Items */
-        .list-item {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #edf2f7;
-        }
-
-        .list-item:hover { border-color: var(--primary); }
-
-        /* Custom Schedule Table */
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th { background: #f1f5f9; padding: 12px; text-align: center; font-size: 0.9rem; color: var(--text-light); }
-        td { padding: 8px; border: 1px solid #f1f5f9; }
-        td input { padding: 8px; border: none; background: transparent; text-align: center; font-size: 0.9rem; }
-        td input:focus { background: white; }
-
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(100%); width: 100px; }
-            .main-content { margin-right: 0; padding: 1.5rem; max-width: 100%; }
-        }
+        th, td { border: 1px solid #f1f5f9; padding: 12px; text-align: center; }
+        .list-item { background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
 
     <script>
-        if (sessionStorage.getItem('isAdmin') !== 'true') {
-            window.location.href = 'index.html';
-        }
+        if (sessionStorage.getItem('isAdmin') !== 'true') { window.location.href = 'index.html'; }
     </script>
 
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <i class="fas fa-user-shield"></i>
-            <span>لوحة القائد</span>
-        </div>
-        
+    <aside class="sidebar" id="adminSidebar">
+        <div class="sidebar-brand"><i class="fas fa-shield-alt"></i> <span>لوحة القائد</span></div>
         <nav class="nav-menu">
-            <div class="nav-item active" onclick="showSection('dashboard', this)">
-                <i class="fas fa-chart-pie"></i> <span>الرئيسية</span>
-            </div>
-            <div class="nav-item" onclick="showSection('ann', this)">
-                <i class="fas fa-bullhorn"></i> <span>الإعلانات</span>
-            </div>
-            <div class="nav-item" onclick="showSection('lib', this)">
-                <i class="fas fa-book"></i> <span>المكتبة الرقمية</span>
-            </div>
-            <div class="nav-item" onclick="showSection('sch', this)">
-                <i class="fas fa-calendar-alt"></i> <span>الجدول الدراسي</span>
-            </div>
-            <div class="nav-item" onclick="showSection('settings', this)">
-                <i class="fas fa-cog"></i> <span>الإعدادات والنسخ</span>
-            </div>
+            <div class="nav-item active" onclick="showSection('dashboard', this)"><i class="fas fa-home"></i> <span>الرئيسية</span></div>
+            <div class="nav-item" onclick="showSection('ann', this)"><i class="fas fa-bullhorn"></i> <span>الإعلانات</span></div>
+            <div class="nav-item" onclick="showSection('lib', this)"><i class="fas fa-book"></i> <span>المكتبة</span></div>
+            <div class="nav-item" onclick="showSection('sch', this)"><i class="fas fa-calendar-alt"></i> <span>الجدول</span></div>
+            <div class="nav-item" onclick="showSection('settings', this)"><i class="fas fa-tools"></i> <span>النسخ الاحتياطي</span></div>
         </nav>
-
-        <button class="nav-item btn-logout" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span>
-        </button>
+        <button class="nav-item btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>خروج</span></button>
     </aside>
 
     <main class="main-content">
         <header>
-            <div class="page-info">
-                <h1 id="currentTitle">لوحة التحكم</h1>
-                <p>مرحباً بك يا مهندس، تحكم في بيانات دفعتك من هنا.</p>
-            </div>
-            <div class="backup-quick">
-                <button class="btn-outline" onclick="exportData()">
-                    <i class="fas fa-cloud-download-alt"></i> نسخة سريعة
-                </button>
-            </div>
+            <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <h2 id="currentTitle">الرئيسية</h2>
+            <div style="font-size: 0.9rem; color: var(--text-light);">الدفعة 26 | مهندس</div>
         </header>
 
         <div id="dashboard" class="section">
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--primary);">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
-                    <div><p class="text-light">الإعلانات</p><h3 id="statAnn">0</h3></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div><p class="text-light">المواد</p><h3 id="statLib">0</h3></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--warning);">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div><p class="text-light">أيام الدراسة</p><h3 id="statSch">0</h3></div>
-                </div>
+                <div class="stat-card"><div><p>الإعلانات</p><h3 id="statAnn">0</h3></div></div>
+                <div class="stat-card"><div><p>المواد</p><h3 id="statLib">0</h3></div></div>
+                <div class="stat-card"><div><p>الأيام</p><h3 id="statSch">0</h3></div></div>
             </div>
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-info-circle"></i> حالة النظام</h3>
-                <p style="color: var(--text-light)">جميع البيانات يتم مزامنتها لحظياً مع تطبيق الطلاب. تأكد من الاحتفاظ بنسخة احتياطية دورياً.</p>
-            </div>
+            <div class="panel"><h3>مرحباً بالقائد</h3><p>استخدم القائمة الجانبية لإدارة محتوى الموقع وتحديثه للطلاب.</p></div>
         </div>
 
         <div id="ann" class="section" style="display:none">
             <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-plus-circle"></i> نشر إعلان جديد</h3>
-                <div class="input-group">
-                    <label>عنوان الإعلان</label>
-                    <input type="text" id="annTitle" placeholder="مثال: موعد امتحان الإلكترونيات">
-                </div>
-                <div class="input-group">
-                    <label>نص الإعلان</label>
-                    <textarea id="annContent" rows="4" placeholder="اكتب تفاصيل الإعلان هنا..."></textarea>
-                </div>
-                <button class="btn-primary" onclick="addAnn()"><i class="fas fa-paper-plane"></i> نشر الآن</button>
+                <h3>نشر إعلان جديد</h3>
+                <input type="text" id="annTitle" placeholder="العنوان">
+                <textarea id="annContent" rows="3" placeholder="المحتوى"></textarea>
+                <button class="btn-primary" onclick="addAnn()">نشر</button>
             </div>
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-list"></i> الإعلانات الحالية</h3>
-                <div id="annList"></div>
-            </div>
+            <div class="panel"><h3>الإعلانات المنشورة</h3><div id="annList"></div></div>
         </div>
 
         <div id="lib" class="section" style="display:none">
             <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-folder-plus"></i> إضافة مادة جديدة</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="input-group">
-                        <label>المادة / القسم</label>
-                        <input type="text" id="libCat" placeholder="مثال: دوائر كهربائية">
-                    </div>
-                    <div class="input-group">
-                        <label>اسم الملف/الرابط</label>
-                        <input type="text" id="libTitle" placeholder="مثال: ملخص المحاضرة 1">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>الرابط (URL)</label>
-                    <input type="text" id="libUrl" placeholder="https://...">
-                </div>
-                <div class="input-group">
-                    <label>نوع الملف</label>
-                    <select id="libIcon">
-                        <option value="file-pdf">PDF - ملف دراسي</option>
-                        <option value="link">Link - رابط خارجي</option>
-                        <option value="video">Video - فيديو شرح</option>
-                        <option value="code">Code - برمجة</option>
-                    </select>
-                </div>
-                <button class="btn-primary" onclick="addLib()"><i class="fas fa-save"></i> حفظ في المكتبة</button>
+                <h3>إضافة للمكتبة</h3>
+                <input type="text" id="libCat" placeholder="المادة">
+                <input type="text" id="libTitle" placeholder="عنوان الملف">
+                <input type="text" id="libUrl" placeholder="الرابط">
+                <select id="libIcon"><option value="file-pdf">PDF</option><option value="link">رابط</option></select>
+                <button class="btn-primary" onclick="addLib()">إضافة</button>
             </div>
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-database"></i> المواد المرفوعة</h3>
-                <div id="libList"></div>
-            </div>
+            <div class="panel"><h3>المواد الحالية</h3><div id="libList"></div></div>
         </div>
 
         <div id="sch" class="section" style="display:none">
             <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-calendar-alt"></i> تحرير الجدول الدراسي</h3>
+                <h3>تعديل الجدول</h3>
                 <div class="table-responsive">
                     <table>
-                        <thead>
-                            <tr><th>اليوم</th><th>08:00 - 10:00</th><th>10:00 - 12:00</th><th>12:00 - 02:00</th><th>عمليات</th></tr>
-                        </thead>
+                        <thead><tr><th>اليوم</th><th>8-10</th><th>10-12</th><th>12-2</th><th>حذف</th></tr></thead>
                         <tbody id="schEditBody"></tbody>
                     </table>
-                </div>
-                <button class="btn-primary" style="margin-top: 1.5rem;" onclick="addSchRow()">
-                    <i class="fas fa-plus"></i> إضافة يوم جديد
-                </button>
+                </div><br>
+                <button class="btn-primary" onclick="addSchRow()">إضافة يوم</button>
             </div>
         </div>
 
         <div id="settings" class="section" style="display:none">
             <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-cloud-upload-alt"></i> النسخ الاحتياطي والاستعادة</h3>
-                <p style="margin-bottom: 1.5rem; color: var(--text-light)">قم بتنزيل كافة بيانات الموقع في ملف واحد للتمكن من استعادتها في أي وقت أو نقلها لمتصفح آخر.</p>
-                <div class="action-btns">
-                    <button class="btn-primary" onclick="exportData()" style="background: var(--success);">
-                        <i class="fas fa-download"></i> تصدير (Export JSON)
-                    </button>
-                    <input type="file" id="importFile" style="display:none" onchange="importData(event)">
-                    <button class="btn-primary" style="background: var(--warning);" onclick="document.getElementById('importFile').click()">
-                        <i class="fas fa-upload"></i> استيراد (Import JSON)
-                    </button>
-                </div>
+                <h3>إدارة البيانات</h3><br>
+                <button class="btn-primary" style="background:var(--success)" onclick="exportData()">تصدير نسخة احتياطية (JSON)</button><br><br>
+                <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+                <button class="btn-primary" style="background:var(--warning)" onclick="document.getElementById('importFile').click()">استيراد نسخة احتياطية</button>
             </div>
         </div>
     </main>
@@ -373,68 +247,44 @@
     <script>
         const KEYS = { ANN: 'batch26_announcements', LIB: 'batch26_library', SCH: 'batch26_schedule' };
 
-        function showSection(id, element) {
+        function toggleSidebar() { document.getElementById('adminSidebar').classList.toggle('open'); }
+
+        function showSection(id, el) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
             document.getElementById(id).style.display = 'block';
-            
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            element.classList.add('active');
-
-            const titles = { dashboard: 'الرئيسية', ann: 'إدارة الإعلانات', lib: 'المكتبة الرقمية', sch: 'الجدول الدراسي', settings: 'الإعدادات' };
-            document.getElementById('currentTitle').innerText = titles[id];
+            el.classList.add('active');
+            document.getElementById('currentTitle').innerText = el.innerText;
+            if(window.innerWidth <= 992) toggleSidebar();
             updateStats();
         }
 
-        // Logic Functions
+        // --- Logic ---
         function addAnn() {
-            const title = document.getElementById('annTitle').value;
-            const content = document.getElementById('annContent').value;
-            if(!title || !content) return alert('أكمل البيانات!');
-            
             const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
-            list.unshift({ id: Date.now(), title, content, date: new Date().toLocaleDateString('ar-EG') });
+            list.unshift({ id: Date.now(), title: document.getElementById('annTitle').value, content: document.getElementById('annContent').value, date: new Date().toLocaleDateString('ar-EG') });
             localStorage.setItem(KEYS.ANN, JSON.stringify(list));
-            document.getElementById('annTitle').value = '';
-            document.getElementById('annContent').value = '';
-            renderAnn();
-            updateStats();
+            renderAnn(); updateStats();
         }
 
         function renderAnn() {
             const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
             document.getElementById('annList').innerHTML = list.map(a => `
-                <div class="list-item">
-                    <div><strong>${a.title}</strong><br><small style="color:var(--text-light)">${a.date}</small></div>
-                    <button class="btn-outline btn-logout" style="padding: 6px 12px" onclick="del('${KEYS.ANN}', ${a.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+                <div class="list-item"><span>${a.title}</span><button onclick="del('${KEYS.ANN}', ${a.id})" style="color:var(--danger); border:none; background:none; cursor:pointer"><i class="fas fa-trash"></i></button></div>
             `).join('');
         }
 
         function addLib() {
-            const cat = document.getElementById('libCat').value;
-            const title = document.getElementById('libTitle').value;
-            const url = document.getElementById('libUrl').value;
-            const icon = document.getElementById('libIcon').value;
-            if(!cat || !title) return alert('أكمل البيانات!');
-
             const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
-            list.push({ id: Date.now(), category: cat, title, url: url || '#', icon });
+            list.push({ id: Date.now(), category: document.getElementById('libCat').value, title: document.getElementById('libTitle').value, url: document.getElementById('libUrl').value, icon: document.getElementById('libIcon').value });
             localStorage.setItem(KEYS.LIB, JSON.stringify(list));
-            renderLib();
-            updateStats();
+            renderLib(); updateStats();
         }
 
         function renderLib() {
             const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
             document.getElementById('libList').innerHTML = list.map(i => `
-                <div class="list-item">
-                    <div><span class="news-date" style="background:var(--primary); color:white; padding:2px 8px; border-radius:5px; font-size:0.8rem">${i.category}</span> ${i.title}</div>
-                    <button class="btn-outline btn-logout" style="padding: 6px 12px" onclick="del('${KEYS.LIB}', ${i.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+                <div class="list-item"><span>${i.category} - ${i.title}</span><button onclick="del('${KEYS.LIB}', ${i.id})" style="color:var(--danger); border:none; background:none; cursor:pointer"><i class="fas fa-trash"></i></button></div>
             `).join('');
         }
 
@@ -446,7 +296,7 @@
                     <td><input value="${r.first}" onchange="updSch(${idx}, 'first', this.value)"></td>
                     <td><input value="${r.second}" onchange="updSch(${idx}, 'second', this.value)"></td>
                     <td><input value="${r.third}" onchange="updSch(${idx}, 'third', this.value)"></td>
-                    <td><button class="btn-outline btn-logout" onclick="delSch(${idx})"><i class="fas fa-times"></i></button></td>
+                    <td><button onclick="delSch(${idx})">X</button></td>
                 </tr>
             `).join('');
         }
@@ -461,8 +311,7 @@
             const list = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]');
             list.push({ day: 'اليوم', first: '-', second: '-', third: '-' });
             localStorage.setItem(KEYS.SCH, JSON.stringify(list));
-            renderSch();
-            updateStats();
+            renderSch(); updateStats();
         }
 
         function updateStats() {
@@ -471,60 +320,29 @@
             document.getElementById('statSch').innerText = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]').length;
         }
 
-        window.del = (key, id) => {
-            if(!confirm('هل أنت متأكد؟')) return;
-            let list = JSON.parse(localStorage.getItem(key));
-            list = list.filter(i => i.id !== id);
-            localStorage.setItem(key, JSON.stringify(list));
-            key === KEYS.ANN ? renderAnn() : renderLib();
-            updateStats();
-        };
-
-        window.delSch = (idx) => {
-            let list = JSON.parse(localStorage.getItem(KEYS.SCH));
-            list.splice(idx, 1);
-            localStorage.setItem(KEYS.SCH, JSON.stringify(list));
-            renderSch();
-            updateStats();
-        };
+        window.del = (key, id) => { if(confirm('حذف؟')) { let list = JSON.parse(localStorage.getItem(key)); list = list.filter(i => i.id !== id); localStorage.setItem(key, JSON.stringify(list)); renderAnn(); renderLib(); updateStats(); } };
+        window.delSch = (idx) => { let list = JSON.parse(localStorage.getItem(KEYS.SCH)); list.splice(idx, 1); localStorage.setItem(KEYS.SCH, JSON.stringify(list)); renderSch(); updateStats(); };
 
         function exportData() {
-            const data = {
-                announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'),
-                library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]'),
-                schedule: JSON.parse(localStorage.getItem(KEYS.SCH) || '[]')
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_batch26_${new Date().toLocaleDateString()}.json`;
-            a.click();
+            const data = { announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'), library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]'), schedule: JSON.parse(localStorage.getItem(KEYS.SCH) || '[]') };
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'backup.json'; a.click();
         }
 
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function importData(e) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
-                    localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
-                    localStorage.setItem(KEYS.SCH, JSON.stringify(data.schedule || []));
-                    alert('تم استيراد البيانات!');
-                    location.reload();
-                } catch (err) { alert('الملف غير صالح!'); }
+            reader.onload = (ev) => {
+                const data = JSON.parse(ev.target.result);
+                localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
+                localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
+                localStorage.setItem(KEYS.SCH, JSON.stringify(data.schedule || []));
+                location.reload();
             };
-            reader.readAsText(file);
+            reader.readAsText(e.target.files[0]);
         }
 
-        function logout() {
-            sessionStorage.removeItem('isAdmin');
-            window.location.href = 'index.html';
-        }
+        function logout() { sessionStorage.removeItem('isAdmin'); window.location.href = 'index.html'; }
 
-        // Initial Load
         renderAnn(); renderLib(); renderSch(); updateStats();
     </script>
 </body>
