@@ -260,6 +260,36 @@
         menuBtn.addEventListener('click', toggleSidebar);
         closeBtn.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
+        // هذا الكود يوضع في ملف المستخدم
+window.addEventListener('storage', (event) => {
+    // التأكد أن التغيير حصل في مفتاح الإعلانات فقط
+    if (event.key === 'batch26_announcements') {
+        console.log("تحديث مكتشف! جاري مزامنة البيانات...");
+        
+        // إعادة رندرة الإعلانات بالبيانات الجديدة
+        renderUserAnnouncements(); 
+        
+        // اختياري: إظهار إشعار بسيط للمستخدم
+        showToast("تم تحديث الإعلانات للتو!");
+    }
+});
+
+// دالة العرض عند المستخدم
+function renderUserAnnouncements() {
+    const list = document.getElementById('user-ann-list');
+    const data = JSON.parse(localStorage.getItem('batch26_announcements')) || [];
+    
+    list.innerHTML = ''; // مسح القائمة الحالية
+    data.forEach(ann => {
+        list.innerHTML += `
+            <div class="card">
+                <h3>${ann.title}</h3>
+                <p>${ann.desc}</p>
+                <small>${ann.date}</small>
+            </div>
+        `;
+    });
+}
     </script>
 </body>
 </html>
