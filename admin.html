@@ -3,347 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة القائد | الدفعة 26</title>
+    <title>نظام إدارة الدفعة 26 | الإدارة الشاملة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-body: #f8fafc;
+            --bg-body: #f1f5f9;
             --sidebar-bg: #0f172a;
-            --text-main: #1e293b;
-            --text-light: #64748b;
             --white: #ffffff;
             --danger: #ef4444;
             --success: #10b981;
             --warning: #f59e0b;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-            --sidebar-width: 280px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: var(--bg-body); display: flex; min-height: 100vh; }
 
-        body { background: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; }
-
-        /* Sidebar Design */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            color: white;
-            position: fixed;
-            right: 0; top: 0; bottom: 0;
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            z-index: 9999;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-brand i { color: var(--primary); }
-
-        .nav-menu { flex: 1; }
-
-        .nav-item {
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            color: #94a3b8;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: rgba(37, 99, 235, 0.1);
-            color: white;
-        }
-
-        .nav-item.active { background: var(--primary); }
-
-        .btn-logout {
-            margin-top: auto;
-            background: rgba(239, 68, 68, 0.1);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-logout:hover { background: var(--danger); color: white; }
+        /* Sidebar */
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px; position: fixed; height: 100%; right: 0; }
+        .sidebar h2 { margin-bottom: 30px; text-align: center; color: var(--primary); }
+        .nav-link { padding: 12px; color: #cbd5e1; cursor: pointer; display: block; text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: var(--primary); color: white; }
 
         /* Main Content */
-        .main-content {
-            margin-right: var(--sidebar-width);
-            padding: 2rem 3rem;
-            width: calc(100% - var(--sidebar-width));
-            transition: 0.3s;
-        }
+        .main-content { margin-right: 260px; padding: 40px; width: 100%; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        /* Cards & Panels */
+        .panel { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .panel-title { margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
+        /* Inputs & Buttons */
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
+        .btn-add { background: var(--primary); }
+        .btn-edit { background: var(--warning); color: #000; }
+        .btn-delete { background: var(--danger); padding: 5px 10px; }
+        .btn-export { background: var(--success); }
+        .btn-import { background: #6366f1; }
 
-        .mobile-toggle {
-            display: none;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
+        /* Table Design */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #edf2f7; text-align: center; }
+        th { background: #f8fafc; }
 
-        /* Stats & Panels */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
+        /* Modal (Simple) for Editing */
+        #editModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 1000; border-radius: 15px; width: 400px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
 
-        .stat-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; padding: 10px; }
+            .sidebar h2, .nav-link span { display: none; }
+            .main-content { margin-right: 70px; }
         }
-
-        .panel {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-right: 0; width: 100%; padding: 1rem; }
-            .mobile-toggle { display: block; }
-            header { padding: 1rem; flex-direction: row-reverse; }
-        }
-
-        /* Forms & Tables */
-        input, textarea, select {
-            width: 100%; padding: 12px; margin: 8px 0;
-            border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none;
-        }
-        button.btn-primary {
-            background: var(--primary); color: white; border: none;
-            padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;
-        }
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { border: 1px solid #f1f5f9; padding: 12px; text-align: center; }
-        .list-item { background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
 
     <script>
-        if (sessionStorage.getItem('isAdmin') !== 'true') { window.location.href = 'index.html'; }
+        // حماية المسؤول
+        if (sessionStorage.getItem('isAdmin') !== 'true') window.location.href = 'index.html';
     </script>
 
-    <aside class="sidebar" id="adminSidebar">
-        <div class="sidebar-brand"><i class="fas fa-shield-alt"></i> <span>لوحة القائد</span></div>
-        <nav class="nav-menu">
-            <div class="nav-item active" onclick="showSection('dashboard', this)"><i class="fas fa-home"></i> <span>الرئيسية</span></div>
-            <div class="nav-item" onclick="showSection('ann', this)"><i class="fas fa-bullhorn"></i> <span>الإعلانات</span></div>
-            <div class="nav-item" onclick="showSection('lib', this)"><i class="fas fa-book"></i> <span>المكتبة</span></div>
-            <div class="nav-item" onclick="showSection('sch', this)"><i class="fas fa-calendar-alt"></i> <span>الجدول</span></div>
-            <div class="nav-item" onclick="showSection('settings', this)"><i class="fas fa-tools"></i> <span>النسخ الاحتياطي</span></div>
-        </nav>
-        <button class="nav-item btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>خروج</span></button>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar">
+        <h2>إدارة 26</h2>
+        <div class="nav-link active" onclick="switchTab('ann-sec')"><i class="fas fa-bullhorn"></i> <span>الإعلانات</span></div>
+        <div class="nav-link" onclick="switchTab('lib-sec')"><i class="fas fa-book"></i> <span>المكتبة</span></div>
+        <div class="nav-link" onclick="switchTab('backup-sec')"><i class="fas fa-database"></i> <span>البيانات</span></div>
+        <br><hr><br>
+        <div class="nav-link" style="color: var(--danger)" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>خروج</span></div>
     </aside>
 
     <main class="main-content">
-        <header>
-            <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-            <h2 id="currentTitle">الرئيسية</h2>
-            <div style="font-size: 0.9rem; color: var(--text-light);">الدفعة 26 | مهندس</div>
-        </header>
-
-        <div id="dashboard" class="section">
-            <div class="stats-grid">
-                <div class="stat-card"><div><p>الإعلانات</p><h3 id="statAnn">0</h3></div></div>
-                <div class="stat-card"><div><p>المواد</p><h3 id="statLib">0</h3></div></div>
-                <div class="stat-card"><div><p>الأيام</p><h3 id="statSch">0</h3></div></div>
-            </div>
-            <div class="panel"><h3>مرحباً بالقائد</h3><p>استخدم القائمة الجانبية لإدارة محتوى الموقع وتحديثه للطلاب.</p></div>
+        <div class="header">
+            <h1>لوحة التحكم الشاملة</h1>
+            <div id="dateNow"></div>
         </div>
 
-        <div id="ann" class="section" style="display:none">
+        <section id="ann-sec" class="tab-content">
             <div class="panel">
-                <h3>نشر إعلان جديد</h3>
-                <input type="text" id="annTitle" placeholder="العنوان">
-                <textarea id="annContent" rows="3" placeholder="المحتوى"></textarea>
-                <button class="btn-primary" onclick="addAnn()">نشر</button>
+                <h3 class="panel-title"><i class="fas fa-plus"></i> إضافة إعلان جديد</h3>
+                <input type="text" id="annTitle" placeholder="عنوان الإعلان">
+                <textarea id="annContent" placeholder="محتوى الإعلان"></textarea>
+                <button class="btn btn-add" onclick="addItem('ANN')">إضافة ونشر</button>
             </div>
-            <div class="panel"><h3>الإعلانات المنشورة</h3><div id="annList"></div></div>
-        </div>
 
-        <div id="lib" class="section" style="display:none">
             <div class="panel">
-                <h3>إضافة للمكتبة</h3>
-                <input type="text" id="libCat" placeholder="المادة">
-                <input type="text" id="libTitle" placeholder="عنوان الملف">
-                <input type="text" id="libUrl" placeholder="الرابط">
-                <select id="libIcon"><option value="file-pdf">PDF</option><option value="link">رابط</option></select>
-                <button class="btn-primary" onclick="addLib()">إضافة</button>
-            </div>
-            <div class="panel"><h3>المواد الحالية</h3><div id="libList"></div></div>
-        </div>
-
-        <div id="sch" class="section" style="display:none">
-            <div class="panel">
-                <h3>تعديل الجدول</h3>
-                <div class="table-responsive">
+                <h3 class="panel-title"><i class="fas fa-list"></i> إدارة الإعلانات المنشورة</h3>
+                <div id="annTableContainer">
                     <table>
-                        <thead><tr><th>اليوم</th><th>8-10</th><th>10-12</th><th>12-2</th><th>حذف</th></tr></thead>
-                        <tbody id="schEditBody"></tbody>
+                        <thead><tr><th>العنوان</th><th>التاريخ</th><th>العمليات</th></tr></thead>
+                        <tbody id="annListBody"></tbody>
                     </table>
-                </div><br>
-                <button class="btn-primary" onclick="addSchRow()">إضافة يوم</button>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div id="settings" class="section" style="display:none">
+        <section id="lib-sec" class="tab-content" style="display:none">
             <div class="panel">
-                <h3>إدارة البيانات</h3><br>
-                <button class="btn-primary" style="background:var(--success)" onclick="exportData()">تصدير نسخة احتياطية (JSON)</button><br><br>
-                <input type="file" id="importFile" style="display:none" onchange="importData(event)">
-                <button class="btn-primary" style="background:var(--warning)" onclick="document.getElementById('importFile').click()">استيراد نسخة احتياطية</button>
+                <h3 class="panel-title"><i class="fas fa-folder-plus"></i> إضافة ملف للمكتبة</h3>
+                <input type="text" id="libCat" placeholder="اسم المادة">
+                <input type="text" id="libTitle" placeholder="عنوان الملف">
+                <input type="text" id="libUrl" placeholder="رابط التحميل">
+                <button class="btn btn-add" onclick="addItem('LIB')">حفظ الملف</button>
+            </div>
+            <div class="panel">
+                <h3 class="panel-title"><i class="fas fa-folder-open"></i> إدارة ملفات المكتبة</h3>
+                <div id="libTableContainer">
+                    <table>
+                        <thead><tr><th>المادة</th><th>الملف</th><th>العمليات</th></tr></thead>
+                        <tbody id="libListBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="backup-sec" class="tab-content" style="display:none">
+            <div class="panel">
+                <h3 class="panel-title"><i class="fas fa-file-export"></i> النسخ الاحتياطي (التصدير)</h3>
+                <p>قم بتصدير جميع البيانات (إعلانات، مكتبة، جداول) في ملف JSON واحد لتأمينه.</p><br>
+                <button class="btn btn-export" onclick="exportFullData()"><i class="fas fa-download"></i> تصدير البيانات الآن</button>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title"><i class="fas fa-file-import"></i> استعادة البيانات (الاستيراد)</h3>
+                <p>اختر ملف النسخة الاحتياطية لاستعادة كافة البيانات.</p><br>
+                <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importFullData(event)">
+                <button class="btn btn-import" onclick="document.getElementById('importFileInput').click()"><i class="fas fa-upload"></i> استيراد ملف JSON</button>
+            </div>
+        </section>
+
+        <div id="editModal">
+            <h3>تعديل العنصر</h3>
+            <input type="hidden" id="editType">
+            <input type="hidden" id="editId">
+            <input type="text" id="editField1" placeholder="العنوان">
+            <textarea id="editField2" placeholder="المحتوى"></textarea>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-add" onclick="saveEdit()">حفظ التعديلات</button>
+                <button class="btn btn-delete" onclick="closeModal()">إلغاء</button>
             </div>
         </div>
     </main>
 
     <script>
-        const KEYS = { ANN: 'batch26_announcements', LIB: 'batch26_library', SCH: 'batch26_schedule' };
+        const KEYS = { ANN: 'batch26_announcements', LIB: 'batch26_library' };
 
-        function toggleSidebar() { document.getElementById('adminSidebar').classList.toggle('open'); }
-
-        function showSection(id, el) {
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+        // تبديل الأقسام
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('currentTitle').innerText = el.innerText;
-            if(window.innerWidth <= 992) toggleSidebar();
-            updateStats();
+            event.currentTarget.classList.add('active');
         }
 
-        // --- Logic ---
-        function addAnn() {
-            const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
-            list.unshift({ id: Date.now(), title: document.getElementById('annTitle').value, content: document.getElementById('annContent').value, date: new Date().toLocaleDateString('ar-EG') });
-            localStorage.setItem(KEYS.ANN, JSON.stringify(list));
-            renderAnn(); updateStats();
+        // --- ميزة الإضافة (Create) ---
+        function addItem(type) {
+            let list = JSON.parse(localStorage.getItem(KEYS[type]) || '[]');
+            let newItem = { id: Date.now() };
+
+            if(type === 'ANN') {
+                newItem.title = document.getElementById('annTitle').value;
+                newItem.content = document.getElementById('annContent').value;
+                newItem.date = new Date().toLocaleDateString('ar-EG');
+                document.getElementById('annTitle').value = '';
+                document.getElementById('annContent').value = '';
+            } else {
+                newItem.category = document.getElementById('libCat').value;
+                newItem.title = document.getElementById('libTitle').value;
+                newItem.url = document.getElementById('libUrl').value;
+                document.getElementById('libCat').value = '';
+                document.getElementById('libTitle').value = '';
+                document.getElementById('libUrl').value = '';
+            }
+
+            list.unshift(newItem);
+            localStorage.setItem(KEYS[type], JSON.stringify(list));
+            renderLists();
         }
 
-        function renderAnn() {
-            const list = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
-            document.getElementById('annList').innerHTML = list.map(a => `
-                <div class="list-item"><span>${a.title}</span><button onclick="del('${KEYS.ANN}', ${a.id})" style="color:var(--danger); border:none; background:none; cursor:pointer"><i class="fas fa-trash"></i></button></div>
-            `).join('');
-        }
-
-        function addLib() {
-            const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
-            list.push({ id: Date.now(), category: document.getElementById('libCat').value, title: document.getElementById('libTitle').value, url: document.getElementById('libUrl').value, icon: document.getElementById('libIcon').value });
-            localStorage.setItem(KEYS.LIB, JSON.stringify(list));
-            renderLib(); updateStats();
-        }
-
-        function renderLib() {
-            const list = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
-            document.getElementById('libList').innerHTML = list.map(i => `
-                <div class="list-item"><span>${i.category} - ${i.title}</span><button onclick="del('${KEYS.LIB}', ${i.id})" style="color:var(--danger); border:none; background:none; cursor:pointer"><i class="fas fa-trash"></i></button></div>
-            `).join('');
-        }
-
-        function renderSch() {
-            const list = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]');
-            document.getElementById('schEditBody').innerHTML = list.map((r, idx) => `
+        // --- ميزة العرض (Read) ---
+        function renderLists() {
+            const annList = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
+            document.getElementById('annListBody').innerHTML = annList.map(a => `
                 <tr>
-                    <td><input value="${r.day}" onchange="updSch(${idx}, 'day', this.value)"></td>
-                    <td><input value="${r.first}" onchange="updSch(${idx}, 'first', this.value)"></td>
-                    <td><input value="${r.second}" onchange="updSch(${idx}, 'second', this.value)"></td>
-                    <td><input value="${r.third}" onchange="updSch(${idx}, 'third', this.value)"></td>
-                    <td><button onclick="delSch(${idx})">X</button></td>
+                    <td>${a.title}</td>
+                    <td>${a.date}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="openEdit('ANN', ${a.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-delete" onclick="deleteItem('ANN', ${a.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            const libList = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
+            document.getElementById('libListBody').innerHTML = libList.map(l => `
+                <tr>
+                    <td>${l.category}</td>
+                    <td>${l.title}</td>
+                    <td>
+                        <button class="btn btn-edit" onclick="openEdit('LIB', ${l.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-delete" onclick="deleteItem('LIB', ${l.id})"><i class="fas fa-trash"></i></button>
+                    </td>
                 </tr>
             `).join('');
         }
 
-        function updSch(idx, field, val) {
-            const list = JSON.parse(localStorage.getItem(KEYS.SCH));
-            list[idx][field] = val;
-            localStorage.setItem(KEYS.SCH, JSON.stringify(list));
+        // --- ميزة الحذف (Delete) ---
+        function deleteItem(type, id) {
+            if(!confirm('هل أنت متأكد من الحذف؟')) return;
+            let list = JSON.parse(localStorage.getItem(KEYS[type]));
+            list = list.filter(item => item.id !== id);
+            localStorage.setItem(KEYS[type], JSON.stringify(list));
+            renderLists();
         }
 
-        function addSchRow() {
-            const list = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]');
-            list.push({ day: 'اليوم', first: '-', second: '-', third: '-' });
-            localStorage.setItem(KEYS.SCH, JSON.stringify(list));
-            renderSch(); updateStats();
+        // --- ميزة التعديل (Update) ---
+        function openEdit(type, id) {
+            let list = JSON.parse(localStorage.getItem(KEYS[type]));
+            let item = list.find(i => i.id === id);
+            
+            document.getElementById('editType').value = type;
+            document.getElementById('editId').value = id;
+            document.getElementById('editField1').value = item.title || item.category;
+            document.getElementById('editField2').value = item.content || item.url;
+            
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
         }
 
-        function updateStats() {
-            document.getElementById('statAnn').innerText = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]').length;
-            document.getElementById('statLib').innerText = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]').length;
-            document.getElementById('statSch').innerText = JSON.parse(localStorage.getItem(KEYS.SCH) || '[]').length;
+        function saveEdit() {
+            const type = document.getElementById('editType').value;
+            const id = parseInt(document.getElementById('editId').value);
+            let list = JSON.parse(localStorage.getItem(KEYS[type]));
+            let item = list.find(i => i.id === id);
+
+            if(type === 'ANN') {
+                item.title = document.getElementById('editField1').value;
+                item.content = document.getElementById('editField2').value;
+            } else {
+                item.category = document.getElementById('editField1').value;
+                item.url = document.getElementById('editField2').value;
+            }
+
+            localStorage.setItem(KEYS[type], JSON.stringify(list));
+            closeModal();
+            renderLists();
         }
 
-        window.del = (key, id) => { if(confirm('حذف؟')) { let list = JSON.parse(localStorage.getItem(key)); list = list.filter(i => i.id !== id); localStorage.setItem(key, JSON.stringify(list)); renderAnn(); renderLib(); updateStats(); } };
-        window.delSch = (idx) => { let list = JSON.parse(localStorage.getItem(KEYS.SCH)); list.splice(idx, 1); localStorage.setItem(KEYS.SCH, JSON.stringify(list)); renderSch(); updateStats(); };
-
-        function exportData() {
-            const data = { announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'), library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]'), schedule: JSON.parse(localStorage.getItem(KEYS.SCH) || '[]') };
-            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'backup.json'; a.click();
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
 
-        function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const data = JSON.parse(ev.target.result);
-                localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
-                localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
-                localStorage.setItem(KEYS.SCH, JSON.stringify(data.schedule || []));
-                location.reload();
+        // --- ميزة التصدير (Export) ---
+        function exportFullData() {
+            const fullData = {
+                announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'),
+                library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]')
             };
-            reader.readAsText(e.target.files[0]);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullData));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "batch26_backup_" + new Date().toLocaleDateString() + ".json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        // --- ميزة الاستيراد (Import) ---
+        function importFullData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if(confirm('تنبيه: سيتم مسح البيانات الحالية واستبدالها بالملف المستورد. استمرار؟')) {
+                        localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
+                        localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
+                        renderLists();
+                        alert('تم استيراد البيانات بنجاح!');
+                    }
+                } catch (err) { alert('خطأ: الملف غير صالح.'); }
+            };
+            reader.readAsText(file);
         }
 
         function logout() { sessionStorage.removeItem('isAdmin'); window.location.href = 'index.html'; }
 
-        renderAnn(); renderLib(); renderSch(); updateStats();
+        renderLists();
     </script>
 </body>
 </html>
