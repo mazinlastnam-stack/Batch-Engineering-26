@@ -3,299 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة الدفعة 26 | الإدارة الشاملة</title>
+    <title>Batch Engineering 26 | لوحة القيادة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #2563eb;
-            --bg-body: #f1f5f9;
-            --sidebar-bg: #0f172a;
-            --white: #ffffff;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --primary-color: #2F5EE0; 
+            --secondary-color: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --sidebar-width: 280px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background: var(--bg-body); display: flex; min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 
-        /* Sidebar */
-        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px; position: fixed; height: 100%; right: 0; }
-        .sidebar h2 { margin-bottom: 30px; text-align: center; color: var(--primary); }
-        .nav-link { padding: 12px; color: #cbd5e1; cursor: pointer; display: block; text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { background: var(--primary); color: white; }
+        body { background-color: #f9fbfd; color: var(--text-dark); overflow-x: hidden; }
 
-        /* Main Content */
-        .main-content { margin-right: 260px; padding: 40px; width: 100%; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        /* --- الهيدر (الناف بار) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .logo h1 { font-size: 1.5rem; color: var(--primary-color); cursor: pointer; }
+
+        .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: 0.3s; display: flex; align-items: center; gap: 8px; cursor: pointer;}
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .btn-nav { background: var(--primary-color); color: #fff !important; padding: 8px 20px; border-radius: 8px; }
+
+        .menu-icon { font-size: 24px; cursor: pointer; display: none; }
+
+        /* --- القائمة الجانبية --- */
+        .sidebar {
+            position: fixed; top: 0; right: -280px; width: var(--sidebar-width); height: 100%;
+            background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s ease-in-out;
+            z-index: 1000; padding-top: 20px;
+        }
+        .sidebar.active { right: 0; }
+        .sidebar-menu { list-style: none; padding: 20px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 15px; color: var(--text-dark); text-decoration: none; border-radius: 8px; margin-bottom: 5px; cursor: pointer;}
+        .sidebar-menu li a:hover { background: #f0f4ff; color: var(--primary-color); }
+
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+        .overlay.active { display: block; }
+
+        /* --- إدارة الأقسام --- */
+        main { display: none; padding: 60px 10%; animation: fadeIn 0.5s ease; min-height: 80vh; }
+        main.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تنسيقات Hero */
+        .hero-section { text-align: center; }
+        .title { font-size: 2.5rem; margin-bottom: 15px; }
+        .title span { color: var(--primary-color); }
+        .btn { padding: 14px 40px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 250px; margin: 5px; }
+        .btn-primary { background: var(--primary-color); color: #fff; }
+        .btn-secondary { background: #fff; border: 1px solid #ddd; }
+
+        /* تنسيقات العناوين للأقسام */
+        .section-header { margin-bottom: 30px; border-right: 5px solid var(--primary-color); padding-right: 15px; }
+
+        /* --- تنسيقات صفحة التسجيل --- */
+        .auth-container { max-width: 400px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 2px solid #eee; }
+        .auth-tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; color: var(--text-light); font-weight: bold; }
+        .auth-tab.active { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); }
         
-        /* Cards & Panels */
-        .panel { background: var(--white); padding: 25px; border-radius: 15px; box-shadow: var(--shadow); margin-bottom: 20px; }
-        .panel-title { margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 15px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-dark); }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.3s; }
+        .form-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(47, 94, 224, 0.1); }
+        
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        
+        .ann-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            border-right: 5px solid var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ann-content h4 { color: var(--primary-color); margin-bottom: 5px; }
+        .ann-actions { display: flex; gap: 10px; }
+        .btn-sm { padding: 8px 15px; font-size: 0.8rem; border-radius: 5px; cursor: pointer; border: none; }
+        .btn-edit { background: #3791E9; color: white; }
+        .btn-delete { background: #e74c3c; color: white; }
 
-        /* Inputs & Buttons */
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; }
-        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
-        .btn-add { background: var(--primary); }
-        .btn-edit { background: var(--warning); color: #000; }
-        .btn-delete { background: var(--danger); padding: 5px 10px; }
-        .btn-export { background: var(--success); }
-        .btn-import { background: #6366f1; }
+        /* تنسيق التبديليات */
+        .btn-tab {
+            padding: 10px 20px;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-tab.active { background: var(--primary-color); color: white; }
+        .btn-add { margin-right: auto; background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 
-        /* Table Design */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border: 1px solid #edf2f7; text-align: center; }
-        th { background: #f8fafc; }
+        /* تنسيق الجدول */
+        .schedule-table { width: 100%; border-collapse: collapse; text-align: right; }
+        .schedule-table th, .schedule-table td { padding: 15px; border-bottom: 1px solid #eee; }
+        .schedule-table th { background: #f8f9fa; color: var(--text-dark); }
 
-        /* Modal (Simple) for Editing */
-        #editModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 1000; border-radius: 15px; width: 400px; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        /* أزرار الحذف والتعديل */
+        .action-btn { border: none; padding: 8px; border-radius: 5px; cursor: pointer; margin-left: 5px; }
+        .edit-btn { background: #f1c40f; color: #fff; }
+        .delete-btn { background: #e74c3c; color: #fff; }
 
-        @media (max-width: 768px) {
-            .sidebar { width: 70px; padding: 10px; }
-            .sidebar h2, .nav-link span { display: none; }
-            .main-content { margin-right: 70px; }
+        /* النافذة المنبثقة Modal */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            align-items: center; justify-content: center;
+        }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; }
+
+        /* تنسيق بطاقة الكتاب */
+        .book-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #eee;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .book-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        .book-icon { font-size: 45px; color: #e74c3c; margin-bottom: 15px; }
+
+        .book-info h4 { margin-bottom: 5px; color: var(--text-dark); }
+
+        .book-info p { font-size: 0.85rem; color: var(--text-light); margin-bottom: 15px; }
+
+        /* أزرار التحكم */
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #f5f5f5;
+            padding-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: 0.2s;
+        }
+
+        .action-btn.edit { background: #e3f2fd; color: #1976d2; }
+        .action-btn.edit:hover { background: #bbdefb; }
+
+        .action-btn.delete { background: #ffebee; color: #d32f2f; }
+        .action-btn.delete:hover { background: #ffcdd2; }
+
+        /* تنسيق النافذة المنبثقة */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none; 
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white !important;
+            border-radius: 8px;
+            padding: 5px 12px !important;
+        }
+
+        .user-welcome {
+            margin-left: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .menu-icon { display: block; }
         }
     </style>
 </head>
 <body>
 
-    <script>
-        // حماية المسؤول
-        if (sessionStorage.getItem('isAdmin') !== 'true') window.location.href = 'index.html';
-    </script>
-
     <div class="overlay" id="overlay"></div>
 
-    <aside class="sidebar">
-        <h2>إدارة 26</h2>
-        <div class="nav-link active" onclick="switchTab('ann-sec')"><i class="fas fa-bullhorn"></i> <span>الإعلانات</span></div>
-        <div class="nav-link" onclick="switchTab('lib-sec')"><i class="fas fa-book"></i> <span>المكتبة</span></div>
-        <div class="nav-link" onclick="switchTab('backup-sec')"><i class="fas fa-database"></i> <span>البيانات</span></div>
-        <br><hr><br>
-        <div class="nav-link" style="color: var(--danger)" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span>خروج</span></div>
-    </aside>
-
-    <main class="main-content">
-        <div class="header">
-            <h1>لوحة التحكم الشاملة</h1>
-            <div id="dateNow"></div>
+    <div class="sidebar" id="sidebar">
+        <div style="padding: 0 20px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+            <h3>لوحة القيادة</h3>
+            <i class="fas fa-times" id="close-btn" style="cursor: pointer; font-size: 20px;"></i>
         </div>
+        <ul class="sidebar-menu">
+            <li><a onclick="requireAuthThen('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a onclick="requireAuthThen('announcements')"><i class="fas fa-bullhorn"></i> الإعلانات</a></li>
+            <li><a onclick="requireAuthThen('schedule')"><i class="fas fa-calendar-alt"></i> الجدول</a></li>
+            <li><a onclick="requireAuthThen('library')"><i class="fas fa-book"></i> المكتبة</a></li>
+            <li><a id="logoutSidebarBtn" style="color:#e74c3c;"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+        </ul>
+    </div>
 
-        <section id="ann-sec" class="tab-content">
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-plus"></i> إضافة إعلان جديد</h3>
-                <input type="text" id="annTitle" placeholder="عنوان الإعلان">
-                <textarea id="annContent" placeholder="محتوى الإعلان"></textarea>
-                <button class="btn btn-add" onclick="addItem('ANN')">إضافة ونشر</button>
-            </div>
+    <header>
+        <nav class="navbar">
+            <div class="logo"><h1 onclick="if(isLoggedIn()) showSection('home'); else showSection('auth');">🏗️ دفعة 26</h1></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="requireAuthThen('home')">الرئيسية</a></li>
+                <li><a onclick="requireAuthThen('announcements')">الإعلانات</a></li>
+                <li><a onclick="requireAuthThen('schedule')">الجدول</a></li>
+                <li><a onclick="requireAuthThen('library')">المكتبة</a></li>
+                <li id="authNavItem"><a onclick="showSection('auth')" class="btn-nav">تسجيل الدخول</a></li>
+                <li id="userNavItem" style="display: none;"><span class="user-welcome" id="welcomeUser"></span><a id="logoutNavBtn" style="cursor:pointer; background:#e74c3c; padding:5px 12px; border-radius:8px; color:white;">خروج</a></li>
+            </ul>
+            <div class="menu-icon" id="menu-btn"><i class="fas fa-bars"></i></div>
+        </nav>
+    </header>
 
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-list"></i> إدارة الإعلانات المنشورة</h3>
-                <div id="annTableContainer">
-                    <table>
-                        <thead><tr><th>العنوان</th><th>التاريخ</th><th>العمليات</th></tr></thead>
-                        <tbody id="annListBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section id="lib-sec" class="tab-content" style="display:none">
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-folder-plus"></i> إضافة ملف للمكتبة</h3>
-                <input type="text" id="libCat" placeholder="اسم المادة">
-                <input type="text" id="libTitle" placeholder="عنوان الملف">
-                <input type="text" id="libUrl" placeholder="رابط التحميل">
-                <button class="btn btn-add" onclick="addItem('LIB')">حفظ الملف</button>
-            </div>
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-folder-open"></i> إدارة ملفات المكتبة</h3>
-                <div id="libTableContainer">
-                    <table>
-                        <thead><tr><th>المادة</th><th>الملف</th><th>العمليات</th></tr></thead>
-                        <tbody id="libListBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section id="backup-sec" class="tab-content" style="display:none">
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-file-export"></i> النسخ الاحتياطي (التصدير)</h3>
-                <p>قم بتصدير جميع البيانات (إعلانات، مكتبة، جداول) في ملف JSON واحد لتأمينه.</p><br>
-                <button class="btn btn-export" onclick="exportFullData()"><i class="fas fa-download"></i> تصدير البيانات الآن</button>
-            </div>
-
-            <div class="panel">
-                <h3 class="panel-title"><i class="fas fa-file-import"></i> استعادة البيانات (الاستيراد)</h3>
-                <p>اختر ملف النسخة الاحتياطية لاستعادة كافة البيانات.</p><br>
-                <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importFullData(event)">
-                <button class="btn btn-import" onclick="document.getElementById('importFileInput').click()"><i class="fas fa-upload"></i> استيراد ملف JSON</button>
-            </div>
-        </section>
-
-        <div id="editModal">
-            <h3>تعديل العنصر</h3>
-            <input type="hidden" id="editType">
-            <input type="hidden" id="editId">
-            <input type="text" id="editField1" placeholder="العنوان">
-            <textarea id="editField2" placeholder="المحتوى"></textarea>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-add" onclick="saveEdit()">حفظ التعديلات</button>
-                <button class="btn btn-delete" onclick="closeModal()">إلغاء</button>
-            </div>
+    <!-- الصفحة الرئيسية (خاصة بعد تسجيل الدخول) -->
+    <main id="home" class="hero-section">
+        <h1 class="title">مرحباً <span id="greetingName">المسؤول</span></h1>
+        <p style="color: var(--text-light); margin-bottom: 30px;">هنا يمكنك إدارة المحتوى، متابعة الإعلانات، وتنظيم المكتبة الرقمية لضمان أفضل تجربة تعليمية للزملاء</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="requireAuthThen('announcements')">➕ إضافة إعلان جديد</button>
+            <button class="btn btn-secondary" onclick="requireAuthThen('library')">📚 إدارة المكتبة</button>
         </div>
     </main>
 
+    <!-- إدارة الإعلانات -->
+    <main id="announcements">
+        <div class="section-header">
+            <h2>إدارة الإعلانات</h2>
+            <p>يمكنك إضافة، تعديل أو حذف التنبيهات الخاصة بالدفعة.</p>
+        </div>
+        <div class="auth-container" style="max-width: 100%; margin-bottom: 30px;">
+            <h4 style="margin-bottom: 15px;" id="form-title">إضافة إعلان جديد</h4>
+            <div class="form-group">
+                <label>عنوان الإعلان</label>
+                <input type="text" id="ann-title" placeholder="مثلاً: تأجيل امتحان الفيزياء">
+            </div>
+            <div class="form-group">
+                <label>تفاصيل الإعلان</label>
+                <textarea id="ann-desc" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;" rows="3"></textarea>
+            </div>
+            <input type="hidden" id="edit-index" value="-1">
+            <button class="btn btn-primary" onclick="saveAnnouncement()" id="save-btn">نشر الإعلان</button>
+            <button class="btn btn-secondary" id="cancel-btn" style="display:none;" onclick="resetForm()">إلغاء التعديل</button>
+        </div>
+        <div id="announcements-list"></div>
+    </main>
+
+    <!-- إدارة الجدول -->
+    <main id="schedule">
+        <div class="section-header">
+            <h2>إدارة الجداول الدراسية</h2>
+            <p>يمكنك تحديث مواعيد المحاضرات والامتحانات من هنا.</p>
+        </div>
+        <div class="tab-container" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap:wrap;">
+            <button class="btn-tab active" onclick="switchSchedule('lectures')">جدول المحاضرات</button>
+            <button class="btn-tab" onclick="switchSchedule('exams')">جدول الامتحانات</button>
+            <button class="btn-add" onclick="openModal()"><i class="fas fa-plus"></i> إضافة إدخال</button>
+        </div>
+        <div style="overflow-x: auto; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+            <table class="schedule-table">
+                <thead>
+                    <tr><th>المادة</th><th>اليوم/التاريخ</th><th>الوقت</th><th>القاعة</th><th>الإجراءات</th></tr>
+                </thead>
+                <tbody id="schedule-body"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- المكتبة الرقمية -->
+    <main id="library">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap;">
+            <div><h2>المكتبة الرقمية</h2><p>إدارة الكتب والمراجع الهندسية</p></div>
+            <button class="btn btn-primary" style="width: auto; padding: 10px 20px;" onclick="openAddModal()"><i class="fas fa-plus"></i> إضافة ملف جديد</button>
+        </div>
+        <div id="library-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;"></div>
+    </main>
+
+    <!-- نموذج تسجيل الدخول / إنشاء حساب (التسجيل معطل عملياً) -->
+    <main id="auth">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tab-login" onclick="toggleAuth('login')">تسجيل دخول</div>
+                <div class="auth-tab" id="tab-signup" onclick="toggleAuth('signup')">حساب جديد</div>
+            </div>
+            <form id="login-form" class="auth-form active" onsubmit="event.preventDefault(); handleLogin();">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="loginUsername" placeholder="Fatima Altayeb أو Mazin Hassan" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="loginPassword" placeholder="********" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="max-width: 100%; margin: 10px 0;">دخول</button>
+                <div id="loginError" style="color:red; font-size:0.8rem; text-align:center;"></div>
+            </form>
+            <form id="signup-form" class="auth-form" onsubmit="event.preventDefault(); alert('التسجيل مغلق، المستخدمون محددون مسبقاً فقط.');">
+                <div class="form-group"><label>الاسم الكامل</label><input type="text" placeholder="أدخل اسمك الثلاثي"></div>
+                <div class="form-group"><label>الرقم الجامعي</label><input type="number" placeholder="2026XXXX"></div>
+                <div class="form-group"><label>البريد الإلكتروني</label><input type="email" placeholder="example@mail.com"></div>
+                <div class="form-group"><label>كلمة المرور</label><input type="password" placeholder="********"></div>
+                <button type="submit" class="btn btn-primary" style="max-width: 100%; margin: 10px 0;">إنشاء حساب (غير مفعل)</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- نماذج modals -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content"><h3 id="modalTitle">إضافة موعد جديد</h3>
+            <div class="form-group"><label>اسم المادة</label><input type="text" id="subjectName"></div>
+            <div class="form-group"><label>اليوم / التاريخ</label><input type="text" id="scheduleDay"></div>
+            <div class="form-group"><label>الوقت</label><input type="text" id="scheduleTime"></div>
+            <div class="form-group"><label>المكان/القاعة</label><input type="text" id="scheduleLocation"></div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;"><button class="btn btn-primary" onclick="saveEntry()">حفظ</button><button class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="modal-overlay">
+        <div class="auth-container"><h3 id="modal-title" style="margin-bottom: 20px;">تعديل بيانات الملف</h3>
+            <input type="hidden" id="edit-id"><div class="form-group"><label>اسم الملف</label><input type="text" id="edit-name"></div>
+            <div class="form-group"><label>القسم/التصنيف</label><input type="text" id="edit-category"></div>
+            <div style="display: flex; gap: 10px;"><button class="btn btn-primary" onclick="saveChanges()">حفظ التغييرات</button><button class="btn btn-secondary" onclick="closeEditModal()">إلغاء</button></div>
+        </div>
+    </div>
+
     <script>
-        const KEYS = { ANN: 'batch26_announcements', LIB: 'batch26_library' };
+        // --- بيانات المستخدمين المعتمدة ---
+        const VALID_USERS = {
+            "Fatima Altayeb": "صاحبة البنفسجي",
+            "Mazin Hassan": "panda@2025"
+        };
 
-        // تبديل الأقسام
-        function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(id).style.display = 'block';
-            event.currentTarget.classList.add('active');
-        }
+        // --- متغيرات عامة ---
+        let currentUser = null;   // سيتم استعادته من sessionStorage
+        let announcements = [];
+        let currentView = 'lectures';
+        let scheduleData = {
+            lectures: [
+                { id: 1, subject: "ديناميكا حرارية", day: "الأحد", time: "08:00 ص", room: "قاعة 4" },
+                { id: 2, subject: "رياضيات 3", day: "الإثنين", time: "10:00 ص", room: "مدرج أ" }
+            ],
+            exams: [
+                { id: 1, subject: "إحصاء هندسي", day: "2026/05/10", time: "09:00 ص", room: "الصالة الكبرى" }
+            ]
+        };
+        let libraryBooks = [
+            { id: 1, name: "رياضيات هندسية 1", category: "قسم الأساسيات" },
+            { id: 2, name: "فيزياء حديثة", category: "الفيزياء" }
+        ];
 
-        // --- ميزة الإضافة (Create) ---
-        function addItem(type) {
-            let list = JSON.parse(localStorage.getItem(KEYS[type]) || '[]');
-            let newItem = { id: Date.now() };
+        // دوال الجلسة
+        function isLoggedIn() { return currentUser !== null; }
 
-            if(type === 'ANN') {
-                newItem.title = document.getElementById('annTitle').value;
-                newItem.content = document.getElementById('annContent').value;
-                newItem.date = new Date().toLocaleDateString('ar-EG');
-                document.getElementById('annTitle').value = '';
-                document.getElementById('annContent').value = '';
+        function requireAuthThen(sectionId) {
+            if (isLoggedIn()) {
+                showSection(sectionId);
             } else {
-                newItem.category = document.getElementById('libCat').value;
-                newItem.title = document.getElementById('libTitle').value;
-                newItem.url = document.getElementById('libUrl').value;
-                document.getElementById('libCat').value = '';
-                document.getElementById('libTitle').value = '';
-                document.getElementById('libUrl').value = '';
+                alert("الرجاء تسجيل الدخول أولاً للوصول إلى هذه الصفحة.");
+                showSection('auth');
             }
-
-            list.unshift(newItem);
-            localStorage.setItem(KEYS[type], JSON.stringify(list));
-            renderLists();
         }
 
-        // --- ميزة العرض (Read) ---
-        function renderLists() {
-            const annList = JSON.parse(localStorage.getItem(KEYS.ANN) || '[]');
-            document.getElementById('annListBody').innerHTML = annList.map(a => `
-                <tr>
-                    <td>${a.title}</td>
-                    <td>${a.date}</td>
-                    <td>
-                        <button class="btn btn-edit" onclick="openEdit('ANN', ${a.id})"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-delete" onclick="deleteItem('ANN', ${a.id})"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-
-            const libList = JSON.parse(localStorage.getItem(KEYS.LIB) || '[]');
-            document.getElementById('libListBody').innerHTML = libList.map(l => `
-                <tr>
-                    <td>${l.category}</td>
-                    <td>${l.title}</td>
-                    <td>
-                        <button class="btn btn-edit" onclick="openEdit('LIB', ${l.id})"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-delete" onclick="deleteItem('LIB', ${l.id})"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // --- ميزة الحذف (Delete) ---
-        function deleteItem(type, id) {
-            if(!confirm('هل أنت متأكد من الحذف؟')) return;
-            let list = JSON.parse(localStorage.getItem(KEYS[type]));
-            list = list.filter(item => item.id !== id);
-            localStorage.setItem(KEYS[type], JSON.stringify(list));
-            renderLists();
-        }
-
-        // --- ميزة التعديل (Update) ---
-        function openEdit(type, id) {
-            let list = JSON.parse(localStorage.getItem(KEYS[type]));
-            let item = list.find(i => i.id === id);
-            
-            document.getElementById('editType').value = type;
-            document.getElementById('editId').value = id;
-            document.getElementById('editField1').value = item.title || item.category;
-            document.getElementById('editField2').value = item.content || item.url;
-            
-            document.getElementById('editModal').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
-
-        function saveEdit() {
-            const type = document.getElementById('editType').value;
-            const id = parseInt(document.getElementById('editId').value);
-            let list = JSON.parse(localStorage.getItem(KEYS[type]));
-            let item = list.find(i => i.id === id);
-
-            if(type === 'ANN') {
-                item.title = document.getElementById('editField1').value;
-                item.content = document.getElementById('editField2').value;
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            if (VALID_USERS[username] && VALID_USERS[username] === password) {
+                currentUser = username;
+                sessionStorage.setItem('batch26_user', username);
+                updateUIForLoggedIn();
+                showSection('home');
+                document.getElementById('loginError').innerText = '';
             } else {
-                item.category = document.getElementById('editField1').value;
-                item.url = document.getElementById('editField2').value;
+                document.getElementById('loginError').innerText = 'اسم المستخدم أو كلمة المرور غير صحيحة';
             }
+        }
 
-            localStorage.setItem(KEYS[type], JSON.stringify(list));
+        function logout() {
+            currentUser = null;
+            sessionStorage.removeItem('batch26_user');
+            updateUIForLoggedIn();
+            showSection('auth');
+        }
+
+        function updateUIForLoggedIn() {
+            const isLogged = isLoggedIn();
+            // إظهار/إخفاء عناصر واجهة المستخدم
+            document.getElementById('authNavItem').style.display = isLogged ? 'none' : 'flex';
+            document.getElementById('userNavItem').style.display = isLogged ? 'flex' : 'none';
+            if (isLogged) {
+                document.getElementById('welcomeUser').innerText = `مرحباً ${currentUser}`;
+                document.getElementById('greetingName').innerText = currentUser;
+                // تعديل أزرار الصفحة الرئيسية
+                document.querySelector('.cta-buttons .btn-primary').innerHTML = '➕ إضافة إعلان جديد';
+                document.querySelector('.cta-buttons .btn-secondary').innerHTML = '📚 إدارة المكتبة';
+            } else {
+                document.getElementById('greetingName').innerText = 'الزائر';
+            }
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main');
+            sections.forEach(section => section.classList.remove('active'));
+            const target = document.getElementById(sectionId);
+            if (target) target.classList.add('active');
+            // إغلاق السايدبار
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- دوال الإعلانات ---
+        function renderAnnouncements() {
+            const container = document.getElementById('announcements-list');
+            container.innerHTML = '';
+            announcements.forEach((ann, idx) => {
+                container.innerHTML += `
+                    <div class="ann-card">
+                        <div class="ann-content"><h4>${escapeHtml(ann.title)}</h4><p>${escapeHtml(ann.desc)}</p></div>
+                        <div class="ann-actions"><button class="btn-sm btn-edit" onclick="editAnnouncement(${idx})"><i class="fas fa-edit"></i></button><button class="btn-sm btn-delete" onclick="deleteAnnouncement(${idx})"><i class="fas fa-trash"></i></button></div>
+                    </div>`;
+            });
+        }
+        function saveAnnouncement() {
+            const title = document.getElementById('ann-title').value.trim();
+            const desc = document.getElementById('ann-desc').value.trim();
+            const editIndex = document.getElementById('edit-index').value;
+            if (!title || !desc) { alert("يرجى ملء جميع الحقول"); return; }
+            if (editIndex === "-1") announcements.unshift({ title, desc });
+            else announcements[editIndex] = { title, desc };
+            resetForm();
+            renderAnnouncements();
+        }
+        function editAnnouncement(idx) {
+            document.getElementById('ann-title').value = announcements[idx].title;
+            document.getElementById('ann-desc').value = announcements[idx].desc;
+            document.getElementById('edit-index').value = idx;
+            document.getElementById('form-title').innerText = "تعديل الإعلان";
+            document.getElementById('save-btn').innerText = "حفظ التعديلات";
+            document.getElementById('cancel-btn').style.display = "inline-block";
+        }
+        function deleteAnnouncement(idx) {
+            if (confirm("حذف الإعلان؟")) { announcements.splice(idx,1); renderAnnouncements(); }
+        }
+        function resetForm() {
+            document.getElementById('ann-title').value = ''; document.getElementById('ann-desc').value = '';
+            document.getElementById('edit-index').value = "-1";
+            document.getElementById('form-title').innerText = "إضافة إعلان جديد";
+            document.getElementById('save-btn').innerText = "نشر الإعلان";
+            document.getElementById('cancel-btn').style.display = "none";
+        }
+
+        // --- دوال الجدول ---
+        function renderTable() {
+            const tbody = document.getElementById('schedule-body');
+            tbody.innerHTML = '';
+            scheduleData[currentView].forEach(item => {
+                tbody.innerHTML += `<tr><td>${escapeHtml(item.subject)}</td><td>${escapeHtml(item.day)}</td><td>${escapeHtml(item.time)}</td><td>${escapeHtml(item.room)}</td><td><button class="action-btn edit-btn" onclick="editEntry(${item.id})"><i class="fas fa-edit"></i></button><button class="action-btn delete-btn" onclick="deleteEntry(${item.id})"><i class="fas fa-trash"></i></button></td></tr>`;
+            });
+        }
+        function switchSchedule(type) { currentView = type; renderTable(); }
+        let nextId = 10;
+        function openModal() { document.getElementById('scheduleModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('scheduleModal').style.display = 'none'; }
+        function saveEntry() {
+            const subject = document.getElementById('subjectName').value.trim();
+            const day = document.getElementById('scheduleDay').value.trim();
+            const time = document.getElementById('scheduleTime').value.trim();
+            const room = document.getElementById('scheduleLocation').value.trim();
+            if (!subject || !day || !time || !room) { alert("جميع الحقول مطلوبة"); return; }
+            const newEntry = { id: nextId++, subject, day, time, room };
+            scheduleData[currentView].push(newEntry);
+            renderTable();
             closeModal();
-            renderLists();
+            document.getElementById('subjectName').value = ''; document.getElementById('scheduleDay').value = '';
+            document.getElementById('scheduleTime').value = ''; document.getElementById('scheduleLocation').value = '';
+        }
+        function deleteEntry(id) {
+            if (confirm("حذف هذا الموعد؟")) { scheduleData[currentView] = scheduleData[currentView].filter(i => i.id !== id); renderTable(); }
+        }
+        function editEntry(id) {
+            const item = scheduleData[currentView].find(i => i.id === id);
+            if(!item) return;
+            const newSubj = prompt("المادة:", item.subject); if(newSubj) item.subject = newSubj;
+            const newDay = prompt("اليوم/التاريخ:", item.day); if(newDay) item.day = newDay;
+            const newTime = prompt("الوقت:", item.time); if(newTime) item.time = newTime;
+            const newRoom = prompt("القاعة:", item.room); if(newRoom) item.room = newRoom;
+            renderTable();
         }
 
-        function closeModal() {
-            document.getElementById('editModal').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
+        // --- دوال المكتبة ---
+        function renderLibrary() {
+            const grid = document.getElementById('library-grid');
+            grid.innerHTML = '';
+            libraryBooks.forEach(book => {
+                grid.innerHTML += `
+                    <div class="book-card" id="book-${book.id}">
+                        <div class="book-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="book-info"><h4 class="book-title">${escapeHtml(book.name)}</h4><p class="book-category">${escapeHtml(book.category)}</p></div>
+                        <div class="book-actions"><button class="action-btn edit" onclick="editBook(${book.id})"><i class="fas fa-edit"></i> تعديل</button><button class="action-btn delete" onclick="deleteBook(${book.id})"><i class="fas fa-trash"></i> حذف</button></div>
+                    </div>`;
+            });
         }
-
-        // --- ميزة التصدير (Export) ---
-        function exportFullData() {
-            const fullData = {
-                announcements: JSON.parse(localStorage.getItem(KEYS.ANN) || '[]'),
-                library: JSON.parse(localStorage.getItem(KEYS.LIB) || '[]')
-            };
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullData));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "batch26_backup_" + new Date().toLocaleDateString() + ".json");
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
+        function openAddModal() { 
+            let newName = prompt("أدخل اسم الملف:");
+            if(!newName) return;
+            let newCat = prompt("التصنيف (القسم):");
+            if(!newCat) return;
+            const newId = libraryBooks.length ? Math.max(...libraryBooks.map(b=>b.id)) + 1 : 3;
+            libraryBooks.push({ id: newId, name: newName, category: newCat });
+            renderLibrary();
         }
-
-        // --- ميزة الاستيراد (Import) ---
-        function importFullData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if(confirm('تنبيه: سيتم مسح البيانات الحالية واستبدالها بالملف المستورد. استمرار؟')) {
-                        localStorage.setItem(KEYS.ANN, JSON.stringify(data.announcements || []));
-                        localStorage.setItem(KEYS.LIB, JSON.stringify(data.library || []));
-                        renderLists();
-                        alert('تم استيراد البيانات بنجاح!');
-                    }
-                } catch (err) { alert('خطأ: الملف غير صالح.'); }
-            };
-            reader.readAsText(file);
+        function editBook(id) {
+            const book = libraryBooks.find(b => b.id === id);
+            if(!book) return;
+            const newName = prompt("الاسم الجديد:", book.name);
+            if(newName) book.name = newName;
+            const newCat = prompt("التصنيف الجديد:", book.category);
+            if(newCat) book.category = newCat;
+            renderLibrary();
         }
+        function deleteBook(id) {
+            if(confirm("حذف هذا الملف نهائياً؟")) { libraryBooks = libraryBooks.filter(b => b.id !== id); renderLibrary(); }
+        }
+        function closeEditModal() { document.getElementById('edit-modal').style.display = 'none'; }
+        function saveChanges() { /* محاكاة */ closeEditModal(); }
 
-        function logout() { sessionStorage.removeItem('isAdmin'); window.location.href = 'index.html'; }
+        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-        renderLists();
+        // --- تهيئة الأحداث والبيانات الافتراضية ---
+        function initialize() {
+            const savedUser = sessionStorage.getItem('batch26_user');
+            if (savedUser && VALID_USERS[savedUser]) currentUser = savedUser;
+            else currentUser = null;
+            updateUIForLoggedIn();
+            announcements = [{ title: "ترحيب", desc: "مرحباً بكم في لوحة تحكم Batch 26" }];
+            renderAnnouncements();
+            renderTable();
+            renderLibrary();
+            // ربط أزرار الخروج
+            document.getElementById('logoutSidebarBtn').onclick = logout;
+            document.getElementById('logoutNavBtn').onclick = logout;
+            // السايدبار
+            document.getElementById('menu-btn').onclick = () => { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); };
+            document.getElementById('close-btn').onclick = () => { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); };
+            document.getElementById('overlay').onclick = () => { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); };
+            if (!isLoggedIn()) showSection('auth');
+            else showSection('home');
+        }
+        window.toggleAuth = (type) => {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            if (type === 'login') { loginForm.classList.add('active'); signupForm.classList.remove('active'); tabLogin.classList.add('active'); tabSignup.classList.remove('active'); }
+            else { signupForm.classList.add('active'); loginForm.classList.remove('active'); tabSignup.classList.add('active'); tabLogin.classList.remove('active'); }
+        };
+        initialize();
     </script>
 </body>
 </html>
