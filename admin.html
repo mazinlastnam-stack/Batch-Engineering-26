@@ -454,24 +454,23 @@
                     </div>`;
             });
         }
-        function saveAnnouncement() {
-            const title = document.getElementById('ann-title').value.trim();
-            const desc = document.getElementById('ann-desc').value.trim();
-            const editIndex = document.getElementById('edit-index').value;
-            if (!title || !desc) { alert("يرجى ملء جميع الحقول"); return; }
-            if (editIndex === "-1") announcements.unshift({ title, desc });
-            else announcements[editIndex] = { title, desc };
-            resetForm();
-            renderAnnouncements();
-        }
-        function editAnnouncement(idx) {
-            document.getElementById('ann-title').value = announcements[idx].title;
-            document.getElementById('ann-desc').value = announcements[idx].desc;
-            document.getElementById('edit-index').value = idx;
-            document.getElementById('form-title').innerText = "تعديل الإعلان";
-            document.getElementById('save-btn').innerText = "حفظ التعديلات";
-            document.getElementById('cancel-btn').style.display = "inline-block";
-        }
+        // مثال: دالة حفظ الإعلان عند المسؤول
+function saveAnnouncement() {
+    const title = document.getElementById('ann-title').value;
+    const desc = document.getElementById('ann-desc').value;
+
+    // 1. جلب البيانات القديمة من التخزين
+    let announcements = JSON.parse(localStorage.getItem('batch26_announcements')) || [];
+    
+    // 2. إضافة الإعلان الجديد
+    announcements.unshift({ title, desc, date: new Date().toLocaleString() });
+
+    // 3. الحفظ في localStorage (هذا السطر هو الذي سيطلق التنبيه للمستخدم)
+    localStorage.setItem('batch26_announcements', JSON.stringify(announcements));
+
+    alert("تم النشر بنجاح!");
+    renderAnnouncements(); // لتحديث واجهة المسؤول نفسها
+}
         function deleteAnnouncement(idx) {
             if (confirm("حذف الإعلان؟")) { announcements.splice(idx,1); renderAnnouncements(); }
         }
